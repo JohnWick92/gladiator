@@ -12,7 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('os', function (Blueprint $table) {
-            $table->id();
+            $table->id('code');
+            $table->string('status', 100);
+            $table->timestamp('completion_date');
+            $table->text('observation_solver');
+            $table->text('observation_in_charge');
+            $table->string('priority', 100);
+            $table->string('satisfaction', 25);
+            $table->boolean('closed')->default(false);
+            $table->boolean('canceled')->default(false);
+            $table->boolean('solved')->default(false);
+            $table->bigInteger('code_om');
+            $table->foreign('code_om')->references('code')
+                ->on('oms')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code_request');
+            $table->foreign('code_request')->references('code')
+                ->on('requests')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code_workshop');
+            $table->foreign('code_workshop')->references('code')
+                ->on('workshops')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -12,7 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('historic_os', function (Blueprint $table) {
-            $table->id();
+            $table->id('code');
+            $table->string('operation', 60);
+            $table->timestamp('change_date');
+            $table->bigInteger('code_os');
+            $table->foreign('code_os')->references('code')
+                ->on('os')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('nip', 10);
+            $table->foreign('nip')->references('nip')
+                ->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

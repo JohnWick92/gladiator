@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('materials', function (Blueprint $table) {
-            $table->id();
+            $table->string('code', 50);
+            $table->primary('code');
+            $table->string('description', 255);
+            $table->string('unit', 30);
+            $table->decimal('value');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

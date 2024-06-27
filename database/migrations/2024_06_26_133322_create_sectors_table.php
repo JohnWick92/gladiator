@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sectors', function (Blueprint $table) {
-            $table->id();
+            $table->id('code');
+            $table->string('description', 100);
+            $table->string('acronym', 20);
+            $table->bigInteger('code_om');
+            $table->foreign('code_om')->references('code')
+                ->on('oms')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

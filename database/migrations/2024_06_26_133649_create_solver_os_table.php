@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('solver_os', function (Blueprint $table) {
-            $table->id();
+            $table->id('code');
+            $table->string('nip', 10);
+            $table->foreign('nip')->references('nip')
+                ->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code_os');
+            $table->foreign('code_os')->references('code')
+                ->on('os')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

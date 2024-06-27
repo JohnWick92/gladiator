@@ -12,7 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->string('nip', 10);
+            $table->primary('nip');
+            $table->string('email', 100);
+            $table->string('name', 255);
+            $table->string('password', 255);
+            $table->string('branch', 9);
+            $table->string('profile_description', 150);
+            $table->boolean('active');
+            $table->boolean('solver');
+            $table->bigInteger('code_om');
+            $table->foreign('code_om')->references('code')
+                ->on('oms')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code_sector');
+            $table->foreign('code_sector')->references('code')
+                ->on('sectors')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code_workshop');
+            $table->foreign('code_workshop')->references('code')
+                ->on('workshops')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

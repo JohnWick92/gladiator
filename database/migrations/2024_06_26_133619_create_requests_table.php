@@ -12,7 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('requests', function (Blueprint $table) {
-            $table->id();
+            $table->id('code');
+            $table->text('description');
+            $table->timestamp('request_date');
+            $table->boolean('accepted');
+            $table->string('nip', 10);
+            $table->string('location', 255);
+            $table->boolean('closed');
+            $table->text('resolution');
+            $table->boolean('canceled');
+            $table->string('priority', 25);
             $table->timestamps();
         });
     }
