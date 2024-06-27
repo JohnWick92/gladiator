@@ -1,18 +1,24 @@
 import ChangeSVG from "@/components/svg/changeSVG";
 import DeleteSVG from "@/components/svg/deleteSVG";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/shadcn/ui/button";
+import { Input } from "@/shadcn/ui/input";
 import { PageProps } from "@/types";
 import { omType } from "@/types/custom";
+import { router } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Index({ oms }: PageProps<{ oms: omType[] }>) {
 
     const [search, setSearch] = useState("");
 
+    function del(payload: omType) {
+        router.delete(`/om/${payload.code}`);
+    }
+
     return (
         <div className="w-full">
-            <h1 className="bg-red-700">Hello!</h1>
             <div className="mt-10 items-center justify-center w-full text-xl">
+                <Button onClick={() => router.get('/om/create')}>Novo</Button>
                 <div className="items-center justify-center w-1/4 m-auto pb-10">
                     <Input
                         onChange={(e) => setSearch(e.target.value)}
@@ -48,13 +54,13 @@ export default function Index({ oms }: PageProps<{ oms: omType[] }>) {
                                         <td className="flex justify-center">
                                             <div
                                                 className="m-auto w-1/2 group"
-                                            // onClick={() => del({ code: item.code })}
+                                                onClick={() => del(item)}
                                             >
                                                 <DeleteSVG />
                                             </div>
                                             <div
                                                 className="m-auto w-1/2 group"
-                                            // onClick={() => toUpdate(item)}
+                                                onClick={() => router.get(`/om/${item.code}/edit`)}
                                             >
                                                 <ChangeSVG />
                                             </div>
