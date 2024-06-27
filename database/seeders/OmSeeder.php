@@ -13,5 +13,6 @@ class OmSeeder extends Seeder
      */
     public function run(): void
     {
+        Om::factory(5)->create();
     }
 }

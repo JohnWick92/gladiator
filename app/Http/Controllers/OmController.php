@@ -13,6 +13,8 @@ class OmController extends Controller
      */
     public function index()
     {
+        $oms = Om::all();
+        return Inertia::render('Om/Index', ['oms' => $oms]);
     }
 
     /**
@@ -20,6 +22,7 @@ class OmController extends Controller
      */
     public function create()
     {
+        return Inertia::render('Om/New');
     }
 
     /**
@@ -27,6 +30,11 @@ class OmController extends Controller
      */
     public function store(Request $request)
     {
+        $om = new Om;
+        $om->description = $request->description;
+        $om->acronym = $request->acronym;
+        $om->save();
+        return redirect()->to('/om');
     }
 
     /**
@@ -42,6 +50,7 @@ class OmController extends Controller
      */
     public function edit(Om $om)
     {
+        return Inertia::render('Om/Edit', ['om' => $om]);
     }
 
     /**
@@ -49,6 +58,10 @@ class OmController extends Controller
      */
     public function update(Request $request, Om $om)
     {
+        $om->description = $request->description;
+        $om->acronym = $request->acronym;
+        $om->update();
+        return redirect()->to('/om');
     }
 
     /**
@@ -56,5 +69,7 @@ class OmController extends Controller
      */
     public function destroy(Om $om)
     {
+        $om->delete();
+        return redirect()->to('/om');
     }
 }

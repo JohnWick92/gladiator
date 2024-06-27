@@ -12,6 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('om', function (Blueprint $table) {
+            $table->id('code');
+            $table->string('description');
+            $table->string('acronym');
+            $table->timestamps();
         });
     }
 

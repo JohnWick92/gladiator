@@ -17,6 +17,8 @@ class OmFactory extends Factory
     public function definition(): array
     {
         return [
+            'description' => fake()->text(50),
+            'acronym' => fake()->text(15)
         ];
     }
 }
