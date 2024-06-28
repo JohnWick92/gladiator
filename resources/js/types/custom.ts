@@ -24,3 +24,10 @@ export type userType = {
 	code_workshop?: number;
 	solver: boolean;
 };
+
+export type workshopType = {
+	code: number;
+	description: string;
+	active: boolean;
+	code_om: number;
+};
