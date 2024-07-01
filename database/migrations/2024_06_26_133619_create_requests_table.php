@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id('code');
             $table->text('description');
             $table->timestamp('request_date');
-            $table->boolean('accepted');
+            $table->boolean('accepted')->default(false);
             $table->string('nip', 10);
+            $table->foreign('nip')->references('nip')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
             $table->string('location', 255);
-            $table->boolean('closed');
-            $table->text('resolution');
-            $table->boolean('canceled');
+            $table->boolean('closed')->default(false);
+            $table->text('resolution')->default("");
+            $table->boolean('canceled')->default(false);
             $table->string('priority', 25);
             $table->timestamps();
         });

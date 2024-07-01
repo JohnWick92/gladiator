@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('os', function (Blueprint $table) {
             $table->id('code');
-            $table->string('status', 100);
-            $table->timestamp('completion_date');
-            $table->text('observation_solver');
-            $table->text('observation_in_charge');
+            $table->string('status', 100)->default('Aberta');
+            $table->timestamp('completion_date')->nullable();
+            $table->text('observation_solver')->default("");
+            $table->text('observation_in_charge')->default("");
             $table->string('priority', 100);
-            $table->string('satisfaction', 25);
+            $table->text('complaint')->default("");
+            $table->string('satisfaction', 25)->default("");
             $table->boolean('closed')->default(false);
             $table->boolean('canceled')->default(false);
+            $table->boolean('req_canceled')->default(false);
             $table->boolean('solved')->default(false);
             $table->bigInteger('code_om');
             $table->foreign('code_om')->references('code')

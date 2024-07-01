@@ -27,9 +27,9 @@ return new class extends Migration
             $table->bigInteger('code_sector');
             $table->foreign('code_sector')->references('code')
                 ->on('sectors')->onDelete('cascade')->onUpdate('cascade');
-            $table->bigInteger('code_workshop');
+            $table->bigInteger('code_workshop')->nullable();
             $table->foreign('code_workshop')->references('code')
-                ->on('workshops')->onDelete('cascade')->onUpdate('cascade');
+                ->on('workshops')->nullOnDelete()->onUpdate('cascade');
             $table->timestamps();
         });
     }
