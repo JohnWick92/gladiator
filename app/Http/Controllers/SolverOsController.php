@@ -33,7 +33,7 @@ class SolverOsController extends Controller
         $solverOs->code_os = $id;
         $solverOs->nip = $request->solver_nip;
         $solverOs->save();
-        $history->saveHistory($request->nip, 'Adicionar solucionador', $id);
+        $history->saveHistory($request->nip, 'Adicionar solucionador', $solverOs->code_os);
         return back()->with('success', 'Solucionador adicionado');
     }
 
@@ -69,7 +69,7 @@ class SolverOsController extends Controller
         $history = new HistoricOsController;
         $solverOs = SolverOs::find($id);
         $solverOs->delete();
-        $history->saveHistory($request->nip, 'Remover solucionador', $id);
+        $history->saveHistory($request->nip, 'Remover solucionador', $solverOs->code_os);
         return back()->with('success', 'Solucionador removido');
     }
 }

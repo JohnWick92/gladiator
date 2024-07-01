@@ -105,10 +105,12 @@ class RequestController extends Controller
             $os->req_canceled = true;
             $os->update();
             $request->update();
+            return redirect('/')->with('success', 'Como seu pedido já foi atrelado a uma OS, solicitamos o cancelamento do seu pedido.
+               Assim que confirmado nós confirmaremos por email ;)');
         } else {
             $request->delete();
+            return redirect()->to('/')->with('success', 'Removida com sucesso');
         }
-        return redirect()->to('/');
     }
 
     public function close(Request $request, $id)

@@ -82,11 +82,11 @@ export type osType = {
 	code_om: number;
 	canceled: boolean;
 	req_canceled: boolean;
-	solvers_os: solversType[];
 	oms?: omType;
 	workshops?: workshopType;
 	requests?: requestType;
 	materials_os?: materialOsType[];
+	solver_os?: solversType[];
 };
 
 export type materialOsType = {

@@ -85,7 +85,7 @@ function Solver({ os, solvers, nip }: solverProps) {
 															)
 														}
 														onClick={() => {
-															const code_solver = os.solver_os.find(
+															const code_solver = os.solver_os?.find(
 																(item) => item.nip === solverItem.nip,
 															)?.code;
 															router.put(

@@ -13,7 +13,7 @@ function OsRow({ item }: props) {
 			<td className="border-black border-2">{item.code_request}</td>
 			<td className="border-black border-2">{item.status}</td>
 			<td className="border-black border-2">{item.priority}</td>
-			<td className="border-black border-2">{item.oms.acronym}</td>
+			<td className="border-black border-2">{item.oms?.acronym}</td>
 			<td className="border-black border-2">
 				<Button
 					onClick={() => {
