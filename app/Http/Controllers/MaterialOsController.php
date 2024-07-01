@@ -26,9 +26,19 @@ class MaterialOsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $history = new HistoricOsController;
+        $materialOs = new MaterialOs;
+        $materialOs->amount = $request->amount;
+        $materialOs->used = false;
+        $materialOs->code_os = $id;
+        $materialOs->code_material = $request->code_material;
+        $materialOs->quantity_used = 0;
+        $materialOs->order_date = now();
+        $materialOs->save();
+        $history->saveHistory($request->nip, 'Adicionar material', $id);
+        return back()->with('success', 'Material adicionado com sucesso');
     }
 
     /**
@@ -50,9 +60,14 @@ class MaterialOsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MaterialOs $materialOs)
+    public function update(Request $request, $id)
     {
-        //
+        $history = new HistoricOsController;
+        $materialOs = MaterialOs::where('code_os', $id)->where('code', $request->code)->first();
+        $materialOs->quantity_used = $materialOs->quantity_used + $request->quantity_used;
+        $materialOs->update();
+        $history->saveHistory($request->nip, 'Registrar uso material', $id);
+        return back()->with('success', 'Uso registrado com sucesso');
     }
 
     /**
