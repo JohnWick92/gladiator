@@ -62,4 +62,14 @@ class HistoricOsController extends Controller
     {
         //
     }
+
+    public function saveHistory(string $nip, string $operation, int $code_os)
+    {
+        $history = new HistoricOs;
+        $history->nip = $nip;
+        $history->operation = $operation;
+        $history->code_os = $code_os;
+        $history->change_date = now();
+        $history->save();
+    }
 }
