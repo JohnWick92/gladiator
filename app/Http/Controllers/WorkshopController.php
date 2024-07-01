@@ -15,14 +15,9 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $workshops = Workshop::all();
-        $oms = Om::all();
-        $user = new User;
-        $user->profile_description = 'Administrador';
+        $workshops = Workshop::with('oms')->get();
         return Inertia::render('Workshop/Index', [
-            'oms' => $oms,
             'workshops' => $workshops,
-            'user' => $user
         ]);
     }
 
@@ -32,11 +27,8 @@ class WorkshopController extends Controller
     public function create()
     {
         $oms = Om::all();
-        $user = new User;
-        $user->profile_description = 'Administrador';
         return Inertia::render('Workshop/New', [
             'oms' => $oms,
-            'user' => $user
         ]);
     }
 
@@ -67,10 +59,7 @@ class WorkshopController extends Controller
     public function edit(Workshop $workshop)
     {
         $oms = Om::all();
-        $user = new User;
-        $user->profile_description = 'Administrador';
         return Inertia::render('Workshop/Edit', [
-            'user' => $user,
             'oms' => $oms,
             'workshop' => $workshop,
         ]);

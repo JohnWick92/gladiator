@@ -9,4 +9,9 @@ class Sector extends Model
 {
     use HasFactory;
     protected $primaryKey = 'code';
+
+    public function oms()
+    {
+        return $this->belongsTo(Om::class, 'code_om');
+    }
 }
