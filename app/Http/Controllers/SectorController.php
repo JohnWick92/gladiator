@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Om;
 use App\Models\Sector;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,12 +14,9 @@ class SectorController extends Controller
      */
     public function index()
     {
-        $oms = Om::all();
-        $sectors = Sector::all();
-        $user = new User;
-        $user->profile_description = 'Administrador';
+        $sectors = Sector::with('oms')->get();
         return Inertia::render('Sector/Index', [
-            'oms' => $oms, 'sectors' => $sectors, 'user' => $user
+            'sectors' => $sectors
         ]);
     }
 
@@ -30,11 +26,8 @@ class SectorController extends Controller
     public function create()
     {
         $oms = Om::all();
-        $user = new User;
-        $user->profile_description = 'Administrador';
         return Inertia::render('Sector/New', [
             'oms' => $oms,
-            'user' => $user
         ]);
     }
 
@@ -65,12 +58,9 @@ class SectorController extends Controller
     public function edit(Sector $sector)
     {
         $oms = Om::all();
-        $user = new User;
-        $user->profile_description = 'Administrador';
         return Inertia::render('Sector/Edit', [
             'oms' => $oms,
             'sector' => $sector,
-            'user' => $user
         ]);
     }
 
@@ -91,7 +81,8 @@ class SectorController extends Controller
      */
     public function destroy(Sector $sector)
     {
-        $sector->delete();
+        // $sector->delete();
+        return dd($sector->code);
         return redirect()->to('/sector');
     }
 }
