@@ -4,23 +4,30 @@ import DeleteSVG from "@/components/svg/deleteSVG";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
 import { PageProps } from "@/types";
-import { omType, sectorType, userType } from "@/types/custom";
+import { sectorType, userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Index({
-	oms,
 	sectors,
-	user,
-}: PageProps<{ oms: omType[]; user: userType; sectors: sectorType[] }>) {
+	auth,
+}: PageProps<{
+	auth: { user: userType };
+	sectors: sectorType[];
+}>) {
 	const [search, setSearch] = useState("");
 
 	return (
 		<div className="w-full">
-			<Menu profile_description="Administrador" />
+			<Menu profile_description={auth.user.profile_description} />
 			<div className="mt-10 items-center justify-center w-full m-auto text-xl">
-				<Button onClick={() => router.get("/sector/create")}>Novo</Button>
 				<div className="items-center justify-center w-1/4 m-auto pb-10">
+					<Button
+						className="w-full mb-5"
+						onClick={() => router.get("/sector/create")}
+					>
+						Novo setor
+					</Button>
 					<Input
 						onChange={(e) => setSearch(e.target.value)}
 						placeholder="Filtro por descrição"
@@ -40,8 +47,9 @@ export default function Index({
 						</tr>
 						{sectors
 							?.filter((item) => {
-								if (user?.profile_description === "Administrador") return item;
-								return item.code_om === user?.code_om;
+								if (auth.user?.profile_description === "Administrador")
+									return item;
+								return item.code_om === auth.user?.code_om;
 							})
 							.filter((item) => {
 								return search.toLocaleLowerCase() === ""
@@ -55,12 +63,7 @@ export default function Index({
 									<tr className="text-center" key={item.code}>
 										<td>{item.acronym}</td>
 										<td>{item.description}</td>
-										<td>
-											{
-												oms.find((element) => element.code === item.code_om)
-													?.description
-											}
-										</td>
+										<td>{item.oms?.description}</td>
 										<td className="flex justify-center">
 											<div
 												className="m-auto w-1/2 group"

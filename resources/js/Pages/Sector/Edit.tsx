@@ -8,9 +8,9 @@ import { useState } from "react";
 
 export default function Edit({
 	oms,
-	user,
+	auth,
 	sector,
-}: PageProps<{ oms: omType[]; user: userType; sector: sectorType }>) {
+}: PageProps<{ oms: omType[]; auth: { user: userType }; sector: sectorType }>) {
 	const [codeOm, setCodeOm] = useState(sector.code_om);
 	const [code, _] = useState(sector.code);
 	const [description, setDescription] = useState(sector.description);
@@ -28,7 +28,7 @@ export default function Edit({
 
 	return (
 		<div>
-			<Menu profile_description="Administrador" />
+			<Menu profile_description={auth.user.profile_description} />
 			<div className="py-5 mt-4">
 				<div className="items-center justify-center w-1/2 m-auto">
 					<div className="flex w-1/2 m-auto py-3">
@@ -49,9 +49,10 @@ export default function Edit({
 					</div>
 					<div className="flex w-1/2 m-auto pb-4">
 						<select
-							disabled={user?.profile_description === "Chefe do apoio"}
+							disabled={auth.user?.profile_description === "Chefe do apoio"}
 							className="w-full h-10 rounded-md border border-input"
 							onChange={(e) => setCodeOm(Number.parseInt(e.target.value))}
+							defaultValue={sector.code_om}
 						>
 							{oms?.map((item) => {
 								return (
@@ -63,11 +64,11 @@ export default function Edit({
 						</select>
 					</div>
 					<div className="flex w-1/2 gap-5 m-auto">
-						<Button className="w-1/3" type="button" onClick={update}>
+						<Button className="w-1/2" type="button" onClick={update}>
 							Alterar
 						</Button>
 						<Button
-							className="w-1/3"
+							className="w-1/2"
 							variant="destructive"
 							type="button"
 							onClick={() => {
