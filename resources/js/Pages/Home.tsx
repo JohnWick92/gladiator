@@ -28,9 +28,18 @@ export default function Home({
 	const [searchSolved, setSearchSolved] = useState("");
 
 	useEffect(() => {
-		if (flash.unathorized !== null) {
+		if (flash.unathorized !== undefined) {
 			toast("Acesso negado", {
 				description: flash.unauthorized,
+				action: {
+					label: "Ok",
+					onClick() {},
+				},
+			});
+		}
+		if (flash.success !== null) {
+			toast("Cancelamento solicitado", {
+				description: flash.success,
 				action: {
 					label: "Ok",
 					onClick() {},
@@ -41,7 +50,7 @@ export default function Home({
 
 	return (
 		<div className="w-full">
-			{flash.unauthorized && <Toaster />}
+			<Toaster />
 			<Menu profile_description={auth.user.profile_description} />
 			<Tabs defaultValue="open">
 				<TabsList>
