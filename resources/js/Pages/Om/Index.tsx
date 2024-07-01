@@ -10,16 +10,21 @@ import { useState } from "react";
 
 export default function Index({
 	oms,
-	user,
-}: PageProps<{ oms: omType[]; user: userType }>) {
+	auth,
+}: PageProps<{ oms: omType[]; auth: { user: userType } }>) {
 	const [search, setSearch] = useState("");
 
 	return (
 		<div className="w-full">
-			<Menu profile_description="Administrador" />
+			<Menu profile_description={auth.user.profile_description} />
 			<div className="mt-10 items-center justify-center w-full text-xl">
-				<Button onClick={() => router.get("/om/create")}>Novo</Button>
 				<div className="items-center justify-center w-1/4 m-auto pb-10">
+					<Button
+						className="w-full mb-5"
+						onClick={() => router.get("/om/create")}
+					>
+						Nova OM
+					</Button>
 					<Input
 						onChange={(e) => setSearch(e.target.value)}
 						placeholder="Filtro por descrição"
