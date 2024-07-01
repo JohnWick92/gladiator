@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MaterialController extends Controller
 {
@@ -12,7 +13,8 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        //
+        $materials = Material::all();
+        return Inertia::render('Material/Index', ['materials' => $materials]);
     }
 
     /**
@@ -20,7 +22,7 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Material/New');
     }
 
     /**
@@ -28,23 +30,30 @@ class MaterialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $material = new Material;
+        $material->description = $request->description;
+        $material->code = $request->code;
+        $material->unit = $request->unit;
+        $material->value = $request->value;
+        $material->active = $request->active;
+        $material->save();
+        return redirect()->to('/material');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Material $material)
-    {
-        //
-    }
+    // public function show(Material $material)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Material $material)
     {
-        //
+        return Inertia::render('Material/Edit', ['material' => $material]);
     }
 
     /**
@@ -52,7 +61,13 @@ class MaterialController extends Controller
      */
     public function update(Request $request, Material $material)
     {
-        //
+        $material->description = $request->description;
+        $material->code = $request->code;
+        $material->unit = $request->unit;
+        $material->value = $request->value;
+        $material->active = $request->active;
+        $material->update();
+        return redirect()->to('/material');
     }
 
     /**
@@ -60,6 +75,7 @@ class MaterialController extends Controller
      */
     public function destroy(Material $material)
     {
-        //
+        $material->delete();
+        return redirect()->to('/material');
     }
 }
