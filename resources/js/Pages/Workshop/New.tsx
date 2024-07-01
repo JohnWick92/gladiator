@@ -7,9 +7,9 @@ import { router } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function New({
-	user,
+	auth,
 	oms,
-}: PageProps<{ user: userType; oms: omType[] }>) {
+}: PageProps<{ auth: { user: userType }; oms: omType[] }>) {
 	const [description, setDescription] = useState("");
 	const [active, setActive] = useState(true);
 	const [codeOm, setCodeOm] = useState(oms[0].code);
@@ -25,7 +25,7 @@ export default function New({
 
 	return (
 		<div className="w-full">
-			<Menu profile_description={user.profile_description} />
+			<Menu profile_description={auth.user.profile_description} />
 			<div className="py-5 mt-4">
 				<div className="items-center justify-center w-1/2 m-auto">
 					<div className="flex w-1/2 m-auto py-3">
@@ -49,7 +49,7 @@ export default function New({
 					</div>
 					<div className="flex w-1/2 m-auto pb-4">
 						<select
-							disabled={user?.profile_description === "Chefe do apoio"}
+							disabled={auth.user.profile_description === "Chefe do apoio"}
 							className="w-full h-10 rounded-md border border-input"
 							onChange={(e) => setCodeOm(Number.parseInt(e.target.value))}
 						>
@@ -63,11 +63,11 @@ export default function New({
 						</select>
 					</div>
 					<div className="flex w-1/2 gap-5 m-auto">
-						<Button className="w-1/3" type="button" onClick={add}>
+						<Button className="w-1/2" type="button" onClick={add}>
 							Adicionar
 						</Button>
 						<Button
-							className="w-1/3"
+							className="w-1/2"
 							variant={"destructive"}
 							type="button"
 							onClick={() => router.get("/workshop")}
