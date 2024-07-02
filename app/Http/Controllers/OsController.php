@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailRequest;
 use App\Models\Material;
 use App\Models\ModelRequest;
 use App\Models\Os;
@@ -9,6 +10,7 @@ use App\Models\SolverOs;
 use App\Models\User;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class OsController extends Controller
@@ -141,18 +143,19 @@ class OsController extends Controller
 
     public function cancelOs(Request $request, $id)
     {
-        $history = new HistoricOsController;
-        $os = Os::find($id);
-        $os->canceled = true;
-        $os->solved = true;
-        $os->completion_date = now();
-        $os->closed = true;
-        $os->update();
-        $ModelRequest = ModelRequest::find($os->code_request);
-        $ModelRequest->closed = true;
-        $ModelRequest->resolution = 'Cancelado';
-        $ModelRequest->update();
-        $history->saveHistory($request->nip, 'OS cancelada', $os->code);
+        // $history = new HistoricOsController;
+        // $os = Os::find($id);
+        // $os->canceled = true;
+        // $os->solved = true;
+        // $os->completion_date = now();
+        // $os->closed = true;
+        // $os->update();
+        // $ModelRequest = ModelRequest::find($os->code_request);
+        // $ModelRequest->closed = true;
+        // $ModelRequest->resolution = 'Cancelado';
+        // $ModelRequest->update();
+        // $history->saveHistory($request->nip, 'OS cancelada', $os->code);
+        Mail::to(User::find('00.0000.00'))->send(new MailRequest);
         return redirect('/os')->with('success', 'Cancelamento efetuado com sucesso');
     }
 
