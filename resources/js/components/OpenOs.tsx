@@ -19,7 +19,7 @@ type openProps = {
 
 export default function OpenOs({ oms, workshops, user, request }: openProps) {
 	const [priority, setPriority] = useState("4 - Baixa");
-	const [workshopCode, setWorkshopCode] = useState(workshops[0].code);
+	const [workshopCode, setWorkshopCode] = useState(workshops[0]?.code);
 	const [omCode, setOmCode] = useState(user.code_om);
 	const priorityArr = [
 		"0 - Execução imediata",
