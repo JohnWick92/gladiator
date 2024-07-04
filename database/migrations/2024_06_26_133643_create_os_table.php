@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id('code');
             $table->string('status', 100)->default('Aberta');
             $table->timestamp('completion_date')->nullable();
-            $table->text('observation_solver')->default("");
-            $table->text('observation_in_charge')->default("");
+            $table->text('observation_solver')->default("")->nullable();
+            $table->text('observation_in_charge')->default("")->nullable();
             $table->string('priority', 100);
-            $table->text('complaint')->default("");
-            $table->string('satisfaction', 25)->default("");
+            $table->text('complaint')->default("")->nullable();
+            $table->string('satisfaction', 25)->default("")->nullable();
             $table->boolean('closed')->default(false);
             $table->boolean('canceled')->default(false);
             $table->boolean('req_canceled')->default(false);
