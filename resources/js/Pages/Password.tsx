@@ -16,21 +16,21 @@ export default function Password({
 	const [confPasswd, setConfPasswd] = useState("");
 
 	function reset() {
-		if (confPasswd === newPasswd && newPasswd !== "") {
-			let payload = {
-				new_password: resetPasswd,
-				nip: nipToReset,
-			};
-			router.put("/password", payload);
-		}
+		let payload = {
+			new_password: resetPasswd,
+			nip: nipToReset,
+		};
+		router.put("/password", payload);
 	}
 
 	function change() {
-		let payload = {
-			new_password: newPasswd,
-			nip: auth.user.nip,
-		};
-		router.put("/password", payload);
+		if (confPasswd === newPasswd && newPasswd !== "") {
+			let payload = {
+				new_password: newPasswd,
+				nip: auth.user.nip,
+			};
+			router.put("/password", payload);
+		}
 	}
 
 	return (

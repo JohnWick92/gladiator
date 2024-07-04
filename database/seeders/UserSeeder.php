@@ -20,10 +20,9 @@ class UserSeeder extends Seeder
             "password" => Hash::make("a"),
             "branch" => "a",
             "code_om" => 1,
-            "code_workshop" => 1,
             "code_sector" => 1,
             "profile_description" => "Administrador",
-            "solver" => true,
+            "solver" => false,
             "active" => true
         ]);
     }
