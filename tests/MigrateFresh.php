@@ -2,18 +2,17 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Facades\Artisan;
 
 trait MigrateFresh
 {
-    protected static $setUpHasRunOnce = false;
-
     public function setUp(): void
     {
         parent::setUp();
-        if (!static::$setUpHasRunOnce) {
+        if (!RefreshDatabaseState::$migrated) {
             Artisan::call('migrate:fresh');
-            static::$setUpHasRunOnce = true;
+            RefreshDatabaseState::$migrated = true;
         }
     }
 }
