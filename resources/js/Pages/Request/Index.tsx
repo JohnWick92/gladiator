@@ -60,7 +60,7 @@ export default function Index({
 							})
 							.map((request) => {
 								const date = new Date(request.request_date);
-								const formateddDate = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+								const formateddDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 								if (!request.accepted) {
 									return (
 										<tr

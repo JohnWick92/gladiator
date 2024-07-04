@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\ModelRequest;
+use App\Models\Os;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,16 +11,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailRequest extends Mailable
+class OpenOSMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public Os $os,
+        public ModelRequest $request,
+    ) {
     }
 
     /**
@@ -27,7 +30,7 @@ class MailRequest extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Cancelamento de pedido',
+            subject: 'Pedido de serviço Gladiador',
         );
     }
 
@@ -37,7 +40,7 @@ class MailRequest extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail-request'
+            view: 'mails/open-OS',
         );
     }
 

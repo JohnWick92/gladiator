@@ -113,7 +113,7 @@ export default function Home({
 									})
 									.map((item) => {
 										const date = new Date(item.request_date);
-										const formateddDate = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+										const formateddDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 										return (
 											<tr
 												className="text-center h-40 border-2 border-black"
@@ -220,7 +220,7 @@ export default function Home({
 									})
 									.map((request) => {
 										const date = new Date(request.request_date);
-										const formateddDate = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+										const formateddDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 										return (
 											<tr
 												className="text-center border-2 border-black"

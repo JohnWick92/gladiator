@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CancelOSMail;
 use App\Mail\MailRequest;
+use App\Mail\OpenOSMail;
+use App\Mail\SolveOSMail;
 use App\Models\Material;
 use App\Models\ModelRequest;
 use App\Models\Os;
@@ -54,6 +57,9 @@ class OsController extends Controller
         $requestOpened = ModelRequest::find($request->code_request);
         $requestOpened->accepted = true;
         $requestOpened->update();
+        $mailRequest = ModelRequest::find($requestOpened->code);
+        $mailOS = Os::find($code_os);
+        Mail::to(User::find($requestOpened->nip))->send(new OpenOSMail($mailOS, $mailRequest));
         return redirect()->to('/request');
     }
 
@@ -143,19 +149,21 @@ class OsController extends Controller
 
     public function cancelOs(Request $request, $id)
     {
-        // $history = new HistoricOsController;
-        // $os = Os::find($id);
-        // $os->canceled = true;
-        // $os->solved = true;
-        // $os->completion_date = now();
-        // $os->closed = true;
-        // $os->update();
-        // $ModelRequest = ModelRequest::find($os->code_request);
-        // $ModelRequest->closed = true;
-        // $ModelRequest->resolution = 'Cancelado';
-        // $ModelRequest->update();
-        // $history->saveHistory($request->nip, 'OS cancelada', $os->code);
-        Mail::to(User::find('00.0000.00'))->send(new MailRequest);
+        $history = new HistoricOsController;
+        $os = Os::find($id);
+        $os->canceled = true;
+        $os->solved = true;
+        $os->completion_date = now();
+        $os->closed = true;
+        $os->update();
+        $ModelRequest = ModelRequest::find($os->code_request);
+        $ModelRequest->closed = true;
+        $ModelRequest->resolution = 'Cancelado';
+        $ModelRequest->update();
+        $history->saveHistory($request->nip, 'OS cancelada', $os->code);
+        $mailRequest = ModelRequest::find($ModelRequest->code);
+        $mailOS = Os::find($id);
+        Mail::to(User::find($ModelRequest->nip))->send(new CancelOSMail($mailOS, $mailRequest));
         return redirect('/os')->with('success', 'Cancelamento efetuado com sucesso');
     }
 
@@ -169,6 +177,9 @@ class OsController extends Controller
         $os->update();
         $modelRequest->update();
         $history->saveHistory($request->nip, 'OS resolvida', $os->code);
+        $mailRequest = ModelRequest::find($modelRequest->code);
+        $mailOS = Os::find($id);
+        Mail::to(User::find($modelRequest->nip))->send(new SolveOSMail($mailOS, $mailRequest));
         return redirect('/os')->with('success', 'OS marcada como solucionada');
     }
 }
