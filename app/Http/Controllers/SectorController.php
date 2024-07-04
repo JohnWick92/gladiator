@@ -81,8 +81,7 @@ class SectorController extends Controller
      */
     public function destroy(Sector $sector)
     {
-        // $sector->delete();
-        return dd($sector->code);
+        $sector->delete();
         return redirect()->to('/sector');
     }
 }
