@@ -36,6 +36,30 @@ class SectorTest extends TestCase
         $sector->save();
     }
 
+    public function test_sector_index(): void
+    {
+        $this->fakeUser();
+        $response = $this->call('GET', '/sector');
+        $response->assertOk();
+    }
+
+
+    public function test_sector_create(): void
+    {
+        $this->fakeUser();
+        $response = $this->call('GET', '/sector/create');
+        $response->assertOk();
+    }
+
+
+    public function test_sector_edit(): void
+    {
+        $this->fakeUser();
+        $this->fakeSector();
+        $response = $this->call('GET', '/sector/' . Sector::all()->first()->code . '/edit');
+        $response->assertOk();
+    }
+
     public function test_sector_store(): void
     {
         $this->fakeUser();

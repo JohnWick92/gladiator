@@ -26,6 +26,28 @@ class OmTest extends BaseTestCase
         auth()->setUser($user);
     }
 
+    public function test_om_index(): void
+    {
+        $this->fakeUser();
+        $response = $this->call('GET', '/om');
+        $response->assertOk();
+    }
+
+    public function test_om_create(): void
+    {
+        $this->fakeUser();
+        $response = $this->call('GET', '/om/create');
+        $response->assertOk();
+    }
+
+    public function test_om_edit(): void
+    {
+        $this->fakeUser();
+        $this->fakeOm();
+        $response = $this->call('GET', '/om/' . Om::all()->first()->code . '/edit');
+        $response->assertOk();
+    }
+
     public function test_om_store(): void
     {
         $this->fakeUser();
