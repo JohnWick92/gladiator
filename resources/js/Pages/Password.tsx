@@ -21,6 +21,8 @@ export default function Password({
 			nip: nipToReset,
 		};
 		router.put("/password", payload);
+		setNipToReset("");
+		setResetPasswd("");
 	}
 
 	function change() {
