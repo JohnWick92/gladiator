@@ -164,8 +164,8 @@ class UserController extends Controller
 
     public function requests()
     {
-        $solvedReq = ModelRequest::with('users')->whereNot('resolution', "")->where('closed', false)->get();
-        $openReq = ModelRequest::with('users')->where('resolution', "")->where('closed', false)->get();
+        $solvedReq = ModelRequest::with('users')->whereNot('resolution', "")->where('closed', false)->where('nip', auth()->user()->nip)->get();
+        $openReq = ModelRequest::with('users')->where('resolution', "")->where('closed', false)->where('nip', auth()->user()->nip)->get();
         return  Inertia::render('Home', ['solvedRequests' => $solvedReq, 'openRequests' => $openReq]);
     }
 }
