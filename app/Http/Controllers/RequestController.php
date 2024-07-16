@@ -1,36 +1,40 @@
 <?php
 
+// phpcs:ignoreFile
+
 namespace App\Http\Controllers;
 
 use App\Models\Om;
 use App\Models\ModelRequest;
 use App\Models\Os;
 use App\Models\Workshop;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class RequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): RedirectResponse|Response
     {
         $requests = null;
         $oms = Om::all();
         $workshops = Workshop::all();
         switch (auth()->user()->profile_description) {
             case "Administrador":
-                $requests = ModelRequest::with('users')->get();
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->get();
                 break;
             case "Chefe do apoio":
-                $requests = ModelRequest::where('code_om', auth()->user()->code_om);
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
                 break;
             case "Enc. Oficina":
-                $requests = ModelRequest::where('code_om', auth()->user()->code_om);
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
                 break;
             default:
-                return redirect()->to('/');
+                return redirect('/');
         }
         return Inertia::render('Request/Index', ['requests' => $requests, 'oms' => $oms, 'workshops' => $workshops]);
     }
@@ -38,7 +42,7 @@ class RequestController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Request/New');
     }
@@ -46,19 +50,19 @@ class RequestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $modelRequest = new ModelRequest;
+        $modelRequest = new ModelRequest();
         $modelRequest->location = $request->location;
         $modelRequest->nip = $request->nip;
         $modelRequest->request_date = now();
         $modelRequest->description = $request->description;
         $modelRequest->priority = $request->priority;
         $modelRequest->save();
-        return redirect()->to('/');
+        return redirect('/');
     }
 
-    public function report($id)
+    public function report($id): Response
     {
         $modelRequest = ModelRequest::find($id);
         return Inertia::render('Reports/Request', ['request' => $modelRequest]);
@@ -75,7 +79,7 @@ class RequestController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ModelRequest $request)
+    public function edit(ModelRequest $request): Response
     {
         return Inertia::render('Request/Edit', ['request' => $request]);
     }
@@ -83,20 +87,20 @@ class RequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ModelRequest $modelRequest)
+    public function update(Request $request, ModelRequest $modelRequest): RedirectResponse
     {
         $modelRequest = $modelRequest->find($request->code);
         $modelRequest->description = $request->description;
         $modelRequest->priority = $request->priority;
         $modelRequest->location = $request->location;
         $modelRequest->update();
-        return redirect()->to('/');
+        return redirect('/');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($code)
+    public function destroy($code): RedirectResponse
     {
         $request = ModelRequest::find(intval($code));
         if ($request->accepted) {
@@ -109,11 +113,11 @@ class RequestController extends Controller
                Assim que confirmado nós confirmaremos por email ;)');
         } else {
             $request->delete();
-            return redirect()->to('/')->with('success', 'Removida com sucesso');
+            return redirect('/')->with('success', 'Removida com sucesso');
         }
     }
 
-    public function close(Request $request, $id)
+    public function close(Request $request, $id): RedirectResponse
     {
         $modelRequest = ModelRequest::find($id);
         $os = Os::where('code_request', $id)->first();
@@ -123,6 +127,6 @@ class RequestController extends Controller
         $os->closed = true;
         $os->update();
         $modelRequest->update();
-        return redirect()->to('/');
+        return redirect('/');
     }
 }

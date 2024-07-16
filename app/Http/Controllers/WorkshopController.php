@@ -3,28 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Om;
-use App\Models\User;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class WorkshopController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         $workshops = Workshop::with('oms')->get();
-        return Inertia::render('Workshop/Index', [
-            'workshops' => $workshops,
-        ]);
+        return Inertia::render(
+            'Workshop/Index',
+            ['workshops' => $workshops,]
+        );
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         $oms = Om::all();
         return Inertia::render('Workshop/New', [
@@ -37,7 +38,7 @@ class WorkshopController extends Controller
      */
     public function store(Request $request)
     {
-        $workshop = new Workshop;
+        $workshop = new Workshop();
         $workshop->description = $request->description;
         $workshop->active = $request->active;
         $workshop->code_om = $request->codeOm;
@@ -56,7 +57,7 @@ class WorkshopController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Workshop $workshop)
+    public function edit(Workshop $workshop): Response
     {
         $oms = Om::all();
         return Inertia::render('Workshop/Edit', [

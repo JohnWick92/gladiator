@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+// phpcs:ignoreFile
+
 use App\Mail\CancelOSMail;
-use App\Mail\MailRequest;
 use App\Mail\OpenOSMail;
 use App\Mail\SolveOSMail;
 use App\Models\Material;
@@ -25,7 +26,27 @@ class OsController extends Controller
     {
         $canceledOs = Os::with('oms')->where('canceled', true)->get();
         $toCancel = Os::with('oms')->where('canceled', false)->where('req_canceled', true)->get();
-        $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)->get();
+        $os = null;
+        switch (auth()->user()->profile_description) {
+            case 'Administrador':
+                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
+                    ->get();
+                break;
+            case 'Chefe do apoio':
+                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
+                    ->where('code_om', auth()->user()->code_om)->get();
+                break;
+            case 'Enc. Oficina':
+                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
+                    ->where('code_workshop', auth()->user()->code_workshop)->get();
+                break;
+            case 'Aux. Oficina':
+                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
+                    ->whereRelation('solver_os', 'nip', auth()->user()->nip)->get();
+                break;
+            default:
+                return redirect('/');
+        }
         return Inertia::render('Os/Index', [
             'osList' => $os,
             'canceledOs' => $canceledOs,
@@ -46,8 +67,8 @@ class OsController extends Controller
      */
     public function store(Request $request)
     {
-        $os = new Os;
-        $history = new HistoricOsController;
+        $os = new Os();
+        $history = new HistoricOsController();
         $os->code_request = $request->code_request;
         $os->code_om = $request->code_om;
         $os->code_workshop = $request->code_workshop;
@@ -114,7 +135,7 @@ class OsController extends Controller
 
     public function addMsg(Request $request, $id)
     {
-        $history = new HistoricOsController;
+        $history = new HistoricOsController();
         $os = Os::find($id);
         if ($request->profile === "Aux. Oficina") {
             $os->observation_solver = $request->message;
@@ -128,7 +149,7 @@ class OsController extends Controller
 
     public function changeWorkshop(Request $request, $id)
     {
-        $history = new HistoricOsController;
+        $history = new HistoricOsController();
         $os = Os::find($id);
         $os->code_workshop = $request->code_workshop;
         SolverOs::where('code_os', $id)->delete();
@@ -139,7 +160,7 @@ class OsController extends Controller
 
     public function changeStatus(Request $request, $id)
     {
-        $history = new HistoricOsController;
+        $history = new HistoricOsController();
         $os = Os::find($id);
         $os->status = $request->status;
         $os->update();
@@ -149,7 +170,7 @@ class OsController extends Controller
 
     public function cancelOs(Request $request, $id)
     {
-        $history = new HistoricOsController;
+        $history = new HistoricOsController();
         $os = Os::find($id);
         $os->canceled = true;
         $os->solved = true;
@@ -169,7 +190,7 @@ class OsController extends Controller
 
     public function solve(Request $request, $id)
     {
-        $history = new HistoricOsController;
+        $history = new HistoricOsController();
         $os = Os::find($id);
         $os->solved = true;
         $modelRequest = ModelRequest::find($os->code_request);

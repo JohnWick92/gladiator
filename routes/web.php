@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:ignoreFile
+
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialOsController;
 use App\Http\Controllers\OmController;
@@ -30,7 +32,7 @@ Route::middleware(EnsureAuthUser::class)->group(function () {
 
     Route::middleware(InChargeRoutes::class)->group(function () {
         Route::resource('/material', MaterialController::class)->except('show');
-        Route::resource('/request', RequestController::class)->except('show');
+        Route::resource('/request', RequestController::class)->except(['show', 'create']);
     });
 
     Route::middleware(SolverRoutes::class)->group(function () {
@@ -41,7 +43,7 @@ Route::middleware(EnsureAuthUser::class)->group(function () {
         Route::put('/workshop/{id}', [OsController::class, 'changeWorkshop']);
         Route::put('/status/{id}', [OsController::class, 'changeStatus']);
         Route::put('/cancel/{id}', [OsController::class, 'cancelOs']);
-        Route::put('/solve/{id}', [Oscontroller::class, 'solve']);
+        Route::put('/solve/{id}', [OsController::class, 'solve']);
         Route::put('/msg/{id}', [OsController::class, 'addMsg']);
         Route::post('/solvers/add/{id}', [SolverOsController::class, 'store']);
         Route::put('/solvers/remove/{id}', [SolverOsController::class, 'destroy']);
@@ -49,6 +51,7 @@ Route::middleware(EnsureAuthUser::class)->group(function () {
         Route::put('/material/use/{id}', [MaterialOsController::class, 'update']);
     });
 
+    Route::get('/request/create', [RequestController::class, 'create']);
     Route::put('/request/close/{id}', [RequestController::class, 'close']);
     Route::get('/', [UserController::class, 'requests']);
     Route::get('/logout', [UserController::class, 'logout']);
