@@ -25,13 +25,13 @@ class RequestController extends Controller
         $workshops = Workshop::all();
         switch (auth()->user()->profile_description) {
             case "Administrador":
-                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->get();
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', "")->get();
                 break;
             case "Chefe do apoio":
-                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', "")->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
                 break;
             case "Enc. Oficina":
-                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', "")->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
                 break;
             default:
                 return redirect('/');
@@ -79,9 +79,10 @@ class RequestController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ModelRequest $request): Response
+    public function edit($request): Response
     {
-        return Inertia::render('Request/Edit', ['request' => $request]);
+        $toUpdate = ModelRequest::find(intval($request));
+        return Inertia::render('Request/Edit', ['request' => $toUpdate]);
     }
 
     /**

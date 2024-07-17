@@ -32,7 +32,7 @@ Route::middleware(EnsureAuthUser::class)->group(function () {
 
     Route::middleware(InChargeRoutes::class)->group(function () {
         Route::resource('/material', MaterialController::class)->except('show');
-        Route::resource('/request', RequestController::class)->except(['show', 'create']);
+        Route::resource('/request', RequestController::class)->except(['show', 'create', 'edit', 'destroy']);
     });
 
     Route::middleware(SolverRoutes::class)->group(function () {
@@ -52,6 +52,9 @@ Route::middleware(EnsureAuthUser::class)->group(function () {
     });
 
     Route::get('/request/create', [RequestController::class, 'create']);
+    Route::get('/request/{id}/edit', [RequestController::class, 'edit']);
+    Route::delete('/request/{id}', [RequestController::class, 'destroy']);
+    Route::post('/request', [RequestController::class, 'store']);
     Route::put('/request/close/{id}', [RequestController::class, 'close']);
     Route::get('/', [UserController::class, 'requests']);
     Route::get('/logout', [UserController::class, 'logout']);
