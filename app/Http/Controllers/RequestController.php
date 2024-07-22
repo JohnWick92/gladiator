@@ -8,6 +8,7 @@ use App\Mail\RejectOsMail;
 use App\Models\Om;
 use App\Models\ModelRequest;
 use App\Models\Os;
+use App\Models\User;
 use App\Models\Workshop;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -141,7 +142,7 @@ class RequestController extends Controller
         $modelrequest->closed = true;
         $modelrequest->resolution = 'Rejeitado';
         $modelrequest->update();
-        Mail::to(auth()->guard()->user::find($modelrequest->nip))->send(new RejectOsMail($modelrequest));
-        return redirect('/os')->with('success', 'Rejeição efetuada com sucesso');
+        Mail::to(User::find($modelrequest->nip))->send(new RejectOsMail($modelrequest));
+        return redirect('/request')->with('success', 'Rejeição efetuada com sucesso');
     }
 }
