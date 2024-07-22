@@ -24,8 +24,8 @@ class UserController extends Controller
         $user = User::find($request->nip);
         $user->password = Hash::make($request->new_password);
         $user->update();
-        if ($user->nip == auth()->user()->nip) {
-            auth()->logout();
+        if ($user->nip == auth()->guard()->user()->nip) {
+            auth()->guard()->logout();
             return redirect()->to('/login');
         }
         return back();
@@ -33,7 +33,7 @@ class UserController extends Controller
 
     public function logout()
     {
-        auth()->logout();
+        auth()->guard()->logout();
         return redirect()->to('/login');
     }
 
@@ -164,8 +164,8 @@ class UserController extends Controller
 
     public function requests()
     {
-        $solvedReq = ModelRequest::with('users')->whereNot('resolution', "")->where('closed', false)->where('nip', auth()->user()->nip)->get();
-        $openReq = ModelRequest::with('users')->where('resolution', "")->where('closed', false)->where('nip', auth()->user()->nip)->get();
+        $solvedReq = ModelRequest::with('users')->whereNot('resolution', "")->where('closed', false)->where('nip', auth()->guard()->user()->nip)->get();
+        $openReq = ModelRequest::with('users')->where('resolution', "")->where('closed', false)->where('nip', auth()->guard()->user()->nip)->get();
         return  Inertia::render('Home', ['solvedRequests' => $solvedReq, 'openRequests' => $openReq]);
     }
 }

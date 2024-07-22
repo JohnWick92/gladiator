@@ -32,7 +32,8 @@ Route::middleware(EnsureAuthUser::class)->group(function () {
 
     Route::middleware(InChargeRoutes::class)->group(function () {
         Route::resource('/material', MaterialController::class)->except('show');
-        Route::resource('/request', RequestController::class)->except(['show', 'create', 'edit', 'destroy']);
+        Route::get('/request', [RequestController::class, 'index']);
+        Route::put('/request/reject/{id}', [RequestController::class, 'rejectRequest']);
     });
 
     Route::middleware(SolverRoutes::class)->group(function () {

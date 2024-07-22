@@ -4,12 +4,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RejectOsMail;
 use App\Models\Om;
 use App\Models\ModelRequest;
 use App\Models\Os;
 use App\Models\Workshop;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -23,15 +25,17 @@ class RequestController extends Controller
         $requests = null;
         $oms = Om::all();
         $workshops = Workshop::all();
-        switch (auth()->user()->profile_description) {
+        switch (auth()->guard()->user()->profile_description) {
             case "Administrador":
                 $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', "")->get();
                 break;
             case "Chefe do apoio":
-                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', "")->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', "")
+                    ->whereRelation('users', 'code_om', auth()->guard()->user()->code_om)->get();
                 break;
             case "Enc. Oficina":
-                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', "")->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', "")
+                    ->whereRelation('users', 'code_om', auth()->guard()->user()->code_om)->get();
                 break;
             default:
                 return redirect('/');
@@ -129,5 +133,15 @@ class RequestController extends Controller
         $os->update();
         $modelRequest->update();
         return redirect('/');
+    }
+
+    public function rejectRequest($id)
+    {
+        $modelrequest = ModelRequest::find($id);
+        $modelrequest->closed = true;
+        $modelrequest->resolution = 'Rejeitado';
+        $modelrequest->update();
+        Mail::to(auth()->guard()->user::find($modelrequest->nip))->send(new RejectOsMail($modelrequest));
+        return redirect('/os')->with('success', 'Rejeição efetuada com sucesso');
     }
 }

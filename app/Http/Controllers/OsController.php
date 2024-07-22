@@ -27,22 +27,22 @@ class OsController extends Controller
         $canceledOs = Os::with('oms')->where('canceled', true)->get();
         $toCancel = Os::with('oms')->where('canceled', false)->where('req_canceled', true)->get();
         $os = null;
-        switch (auth()->user()->profile_description) {
+        switch (auth()->guard()->user()->profile_description) {
             case 'Administrador':
                 $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
                     ->get();
                 break;
             case 'Chefe do apoio':
                 $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
-                    ->where('code_om', auth()->user()->code_om)->get();
+                    ->where('code_om', auth()->guard()->user()->code_om)->get();
                 break;
             case 'Enc. Oficina':
                 $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
-                    ->where('code_workshop', auth()->user()->code_workshop)->get();
+                    ->where('code_workshop', auth()->guard()->user()->code_workshop)->get();
                 break;
             case 'Aux. Oficina':
                 $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
-                    ->whereRelation('solver_os', 'nip', auth()->user()->nip)->get();
+                    ->whereRelation('solver_os', 'nip', auth()->guard()->user()->nip)->get();
                 break;
             default:
                 return redirect('/');
