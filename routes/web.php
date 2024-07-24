@@ -67,6 +67,9 @@ Route::middleware(EnsureAuthUser::class)->group(function () {
     Route::get('/about', function () {
         return Inertia::render('About');
     });
+    Route::get('/change', function () {
+        return Inertia::render('Change');
+    });
 });
 
 Route::get('/login', [UserController::class, 'login']);

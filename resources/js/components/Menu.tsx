@@ -61,6 +61,9 @@ export default function Menu({ profile_description }: props) {
 				<li className="p-2 hover:underline">
 					<Link href="/about">Sobre</Link>
 				</li>
+				<li className="p-2 hover:underline">
+					<Link href="/change">Mudanças</Link>
+				</li>
 				<li className="p-2 rounded-sm hover:bg-red-600">
 					<Link href="/logout">Sair</Link>
 				</li>
