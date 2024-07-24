@@ -53,6 +53,7 @@ Route::middleware(EnsureAuthUser::class)->group(function () {
     });
 
     Route::get('/request/create', [RequestController::class, 'create']);
+    Route::put('/request/{id}', [RequestController::class, 'update']);
     Route::get('/request/{id}/edit', [RequestController::class, 'edit']);
     Route::delete('/request/{id}', [RequestController::class, 'destroy']);
     Route::post('/request', [RequestController::class, 'store']);

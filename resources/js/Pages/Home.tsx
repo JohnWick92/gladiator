@@ -13,6 +13,14 @@ import { router, usePage } from "@inertiajs/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs";
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
+import {
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	DialogTrigger,
+} from "@/shadcn/ui/dialog";
+import { ScrollArea } from "@/shadcn/ui/scroll-area";
+import { twMerge } from "tailwind-merge";
 
 export default function Home({
 	auth,
@@ -130,7 +138,26 @@ export default function Home({
 													{item.location}
 												</td>
 												<td className="border-2 border-black">
-													{item.description}
+													<Dialog>
+														<DialogTrigger>
+															{item.description.length > 100
+																? item.description.substring(0, 100) + "..."
+																: item.description}
+														</DialogTrigger>
+														<DialogContent
+															className={twMerge(
+																"py-16 text-xl",
+																item.description.length > 300 && "h-3/4",
+															)}
+														>
+															<ScrollArea>
+																<DialogTitle className="my-5 text-center">
+																	Descrição do pedido
+																</DialogTitle>
+																<div className="pr-5">{item.description}</div>
+															</ScrollArea>
+														</DialogContent>
+													</Dialog>
 												</td>
 												<td className="items-center justify-center mt-5">
 													{item.accepted ? <CheckedSVG /> : <UncheckedSVG />}
