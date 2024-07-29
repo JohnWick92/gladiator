@@ -1,3 +1,4 @@
+import LogoLargeSVG from "@/components/svg/logoLargeSVG";
 import { Button } from "@/shadcn/ui/button";
 import { PageProps } from "@/types";
 import { Head, router, usePage } from "@inertiajs/react";
@@ -32,7 +33,10 @@ export default function Login() {
 	}, [flash]);
 
 	return (
-		<div className="bg-gray-900 h-screen overflow-hidden flex justify-center items-center">
+		<div className="bg-gray-900 h-screen overflow-hidden flex justify-center items-center flex-col">
+			<div className="py-10">
+				<LogoLargeSVG />
+			</div>
 			<Head title="login" />
 			{flash.loginError && <Toaster />}
 			<div className="bg-slate-100 lg:w-5/12 md:6/12 w-10/12 rounded-3xl">

@@ -31,13 +31,15 @@ export default function Index({
 	const [search, setSearch] = useState("");
 
 	useEffect(() => {
-		toast("Sucesso", {
-			description: flash.success,
-			action: {
-				label: "Ok",
-				onClick() {},
-			},
-		});
+		if (flash.success) {
+			toast("Sucesso", {
+				description: flash.success,
+				action: {
+					label: "Ok",
+					onClick() {},
+				},
+			});
+		}
 	}, [flash]);
 
 	return (
