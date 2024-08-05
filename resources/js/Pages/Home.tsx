@@ -14,314 +14,173 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs";
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import {
-	Dialog,
-	DialogContent,
-	DialogTitle,
-	DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
 } from "@/shadcn/ui/dialog";
 import { ScrollArea } from "@/shadcn/ui/scroll-area";
 import { twMerge } from "tailwind-merge";
+import OpenRequestRow from "@/components/table/request/OpenRequestRow";
+import SolvedRequestRow from "@/components/table/request/SolvedRequestRow";
 
 export default function Home({
-	auth,
-	solvedRequests,
-	openRequests,
+  auth,
+  solvedRequests,
+  openRequests,
 }: PageProps<{
-	auth: { user: userType };
-	openRequests: requestType[];
-	solvedRequests: requestType[];
+  auth: { user: userType };
+  openRequests: requestType[];
+  solvedRequests: requestType[];
 }>) {
-	const { flash } = usePage().props as PageProps<{ flash: any }> & any;
-	const [searchOpen, setSearchOpen] = useState("");
-	const [searchSolved, setSearchSolved] = useState("");
+  const { flash } = usePage().props as PageProps<{ flash: any }> & any;
+  const [searchOpen, setSearchOpen] = useState("");
+  const [searchSolved, setSearchSolved] = useState("");
 
-	useEffect(() => {
-		if (flash.unathorized !== undefined) {
-			toast("Acesso negado", {
-				description: flash.unauthorized,
-				action: {
-					label: "Ok",
-					onClick() {},
-				},
-			});
-		}
-		if (flash.success !== null) {
-			toast("Cancelamento solicitado", {
-				description: flash.success,
-				action: {
-					label: "Ok",
-					onClick() {},
-				},
-			});
-		}
-	}, [flash]);
+  useEffect(() => {
+    if (flash.unathorized !== undefined) {
+      toast("Acesso negado", {
+        description: flash.unauthorized,
+        action: {
+          label: "Ok",
+          onClick() {},
+        },
+      });
+    }
+    if (flash.success !== null) {
+      toast("Cancelamento solicitado", {
+        description: flash.success,
+        action: {
+          label: "Ok",
+          onClick() {},
+        },
+      });
+    }
+  }, [flash]);
 
-	return (
-		<div className="w-full">
-			<Toaster />
-			<Menu profile_description={auth.user.profile_description} />
-			<Tabs defaultValue="open">
-				<TabsList>
-					<TabsTrigger value="open">Pedidos abertos</TabsTrigger>
-					<TabsTrigger value="solved">Pedidos resolvidos</TabsTrigger>
-				</TabsList>
-				<TabsContent value="open">
-					<div>
-						<div className="items-center justify-center w-1/4 m-auto pb-10">
-							<Button
-								className="w-full mb-5"
-								onClick={() => router.get("/request/create")}
-							>
-								Fazer pedido
-							</Button>
-							<Input
-								onChange={(e) => setSearchOpen(e.target.value)}
-								placeholder="Filtros"
-							/>
-						</div>
-						<table className="w-3/4 m-auto">
-							<tbody>
-								<tr>
-									<th className="w-1/12 border-blue-950 border bg-slate-300">
-										Código
-									</th>
-									<th className="w-1/12 border-blue-950 border bg-slate-300">
-										Nome
-									</th>
-									<th className="w-1/12 border-blue-950 border bg-slate-300">
-										Data
-									</th>
-									<th className="w-1/4 border-blue-950 border bg-slate-300">
-										Local
-									</th>
-									<th className="border-blue-950 border bg-slate-300">
-										Descrição
-									</th>
-									<th className="w-20 border-blue-950 border bg-slate-300">
-										Aceito
-									</th>
-									<th className="w-20 border-blue-950 border bg-slate-300">
-										Ações
-									</th>
-								</tr>
-								{openRequests
-									?.filter((item) => {
-										return searchOpen.toLowerCase() === ""
-											? item
-											: item.description
-													.toLowerCase()
-													.includes(searchOpen.toLowerCase()) ||
-													item.location
-														.toLowerCase()
-														.includes(searchOpen.toLowerCase()) ||
-													item.code === Number.parseFloat(searchOpen);
-									})
-									.filter((item) => {
-										return !item.canceled;
-									})
-									.map((item) => {
-										const date = new Date(item.request_date);
-										const formateddDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-										return (
-											<tr
-												className="text-center h-40 border-2 border-black"
-												key={item.code}
-											>
-												<td className="border-2 border-black">{item.code}</td>
-												<td className="border-2 border-black">
-													{item?.users?.name}
-												</td>
-												<td className="border-2 border-black">
-													{formateddDate}
-												</td>
-												<td className="border-2 border-black">
-													{item.location}
-												</td>
-												<td className="border-2 border-black">
-													<Dialog>
-														<DialogTrigger>
-															{item.description.length > 100
-																? item.description.substring(0, 100) + "..."
-																: item.description}
-														</DialogTrigger>
-														<DialogContent
-															className={twMerge(
-																"py-16 text-xl",
-																item.description.length > 300 && "h-3/4",
-															)}
-														>
-															<ScrollArea>
-																<DialogTitle className="my-5 text-center">
-																	Descrição do pedido
-																</DialogTitle>
-																<div className="pr-5">{item.description}</div>
-															</ScrollArea>
-														</DialogContent>
-													</Dialog>
-												</td>
-												<td className="items-center justify-center mt-5">
-													{item.accepted ? <CheckedSVG /> : <UncheckedSVG />}
-												</td>
-												<td className="border-black border-2">
-													<div className="flex items-center justify-center gap-3">
-														<div
-															className="m-auto w-1/2 group"
-															onClick={() => {
-																router.get(`/request/${item.code}/edit`);
-															}}
-														>
-															<ChangeSVG />
-														</div>
-														<div
-															className="group items-center justify-center"
-															onClick={() => {
-																router.get(`/report/request/${item.code}`);
-															}}
-														>
-															<ReportSVG />
-														</div>
-														<div className="group items-center justify-center">
-															<button
-																type="button"
-																className="bg-white pt-2"
-																onClick={() => {
-																	router.delete(`/request/${item.code}`);
-																}}
-															>
-																<CancelSVG />
-															</button>
-														</div>
-													</div>
-												</td>
-											</tr>
-										);
-									})}
-							</tbody>
-						</table>
-					</div>
-				</TabsContent>
-				<TabsContent value="solved">
-					<div className="w-full">
-						<div className="items-center justify-center w-1/4 m-auto pb-10">
-							<Input
-								onChange={(e) => setSearchSolved(e.target.value)}
-								placeholder="Filtros"
-							/>
-						</div>
-						<table className="w-3/4 m-auto">
-							<tbody>
-								<tr>
-									<th className="w-1/12 border-blue-950 border bg-slate-300">
-										Código
-									</th>
-									<th className="w-1/12 border-blue-950 border bg-slate-300">
-										Nome
-									</th>
-									<th className="w-1/12 border-blue-950 border bg-slate-300">
-										Data
-									</th>
-									<th className="w-1/4 border-blue-950 border bg-slate-300">
-										Local
-									</th>
-									<th className="border-blue-950 border bg-slate-300">
-										Descrição
-									</th>
-									<th className="border-blue-950 border bg-slate-300">
-										Resolução
-									</th>
-									<th className="w-1/12 border-blue-950 border bg-slate-300">
-										Ações
-									</th>
-								</tr>
-								{solvedRequests
-									?.filter((item) => {
-										return searchSolved.toLowerCase() === ""
-											? item
-											: item.description
-													.toLowerCase()
-													.includes(searchSolved.toLowerCase()) ||
-													item.location
-														.toLowerCase()
-														.includes(searchSolved.toLowerCase()) ||
-													item.code === Number.parseInt(searchSolved);
-									})
-									.map((request) => {
-										const date = new Date(request.request_date);
-										const formateddDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-										return (
-											<tr
-												className="text-center border-2 border-black"
-												key={request.code}
-											>
-												<td className="border-2 border-black">
-													{request.code}
-												</td>
-												<td className="border-2 border-black">
-													{request?.users?.name}
-												</td>
-												<td className="border-2 border-black">
-													{formateddDate}
-												</td>
-												<td className="border-2 border-black">
-													{request.location}
-												</td>
-												<td className="h-40 border-2 border-black">
-													<Dialog>
-														<DialogTrigger>
-															{request.description.length > 100
-																? request.description.substring(0, 100) + "..."
-																: request.description}
-														</DialogTrigger>
-														<DialogContent
-															className={twMerge(
-																"py-16 text-xl",
-																request.description.length > 300 && "h-3/4",
-															)}
-														>
-															<ScrollArea>
-																<DialogTitle className="my-5 text-center">
-																	Descrição do pedido
-																</DialogTitle>
-																<div className="pr-5">
-																	{request.description}
-																</div>
-															</ScrollArea>
-														</DialogContent>
-													</Dialog>
-												</td>
-												<td className="border-2 border-black">
-													<Dialog>
-														<DialogTrigger>
-															{request.resolution.length > 100
-																? request.resolution.substring(0, 100) + "..."
-																: request.resolution}
-														</DialogTrigger>
-														<DialogContent
-															className={twMerge(
-																"py-16 text-xl",
-																request.resolution.length > 300 && "h-3/4",
-															)}
-														>
-															<ScrollArea>
-																<DialogTitle className="my-5 text-center">
-																	Resolução do pedido
-																</DialogTitle>
-																<div className="pr-5">{request.resolution}</div>
-															</ScrollArea>
-														</DialogContent>
-													</Dialog>
-												</td>
-												<td className="border-2 border-black">
-													<Rate code_request={request.code} nip={request.nip} />
-												</td>
-											</tr>
-										);
-									})}
-							</tbody>
-						</table>
-					</div>
-				</TabsContent>
-			</Tabs>
-		</div>
-	);
+  return (
+    <div className="w-full">
+      <Toaster />
+      <Menu profile_description={auth.user.profile_description} />
+      <Tabs defaultValue="open">
+        <TabsList>
+          <TabsTrigger value="open">Pedidos abertos</TabsTrigger>
+          <TabsTrigger value="solved">Pedidos resolvidos</TabsTrigger>
+        </TabsList>
+        <TabsContent value="open">
+          <div>
+            <div className="items-center justify-center w-1/4 m-auto pb-10">
+              <Button
+                className="w-full mb-5"
+                onClick={() => router.get("/request/create")}
+              >
+                Fazer pedido
+              </Button>
+              <Input
+                onChange={(e) => setSearchOpen(e.target.value)}
+                placeholder="Filtros"
+              />
+            </div>
+            <table className="w-3/4 m-auto">
+              <tbody>
+                <tr>
+                  <th className="w-1/12 border-blue-950 border bg-slate-300">
+                    Código
+                  </th>
+                  <th className="w-1/12 border-blue-950 border bg-slate-300">
+                    Nome
+                  </th>
+                  <th className="w-1/12 border-blue-950 border bg-slate-300">
+                    Data
+                  </th>
+                  <th className="w-1/4 border-blue-950 border bg-slate-300">
+                    Local
+                  </th>
+                  <th className="border-blue-950 border bg-slate-300">
+                    Descrição
+                  </th>
+                  <th className="w-20 border-blue-950 border bg-slate-300">
+                    Aceito
+                  </th>
+                  <th className="w-20 border-blue-950 border bg-slate-300">
+                    Ações
+                  </th>
+                </tr>
+                {openRequests
+                  ?.filter((item) => {
+                    return searchOpen.toLowerCase() === ""
+                      ? item
+                      : item.description
+                          .toLowerCase()
+                          .includes(searchOpen.toLowerCase()) ||
+                          item.location
+                            .toLowerCase()
+                            .includes(searchOpen.toLowerCase()) ||
+                          item.code === Number.parseFloat(searchOpen);
+                  })
+                  .filter((item) => {
+                    return !item.canceled;
+                  })
+                  .map((item) => {
+                    return <OpenRequestRow request={item} />;
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </TabsContent>
+        <TabsContent value="solved">
+          <div className="w-full">
+            <div className="items-center justify-center w-1/4 m-auto pb-10">
+              <Input
+                onChange={(e) => setSearchSolved(e.target.value)}
+                placeholder="Filtros"
+              />
+            </div>
+            <table className="w-3/4 m-auto">
+              <tbody>
+                <tr>
+                  <th className="w-1/12 border-blue-950 border bg-slate-300">
+                    Código
+                  </th>
+                  <th className="w-1/12 border-blue-950 border bg-slate-300">
+                    Nome
+                  </th>
+                  <th className="w-1/12 border-blue-950 border bg-slate-300">
+                    Data
+                  </th>
+                  <th className="w-1/4 border-blue-950 border bg-slate-300">
+                    Local
+                  </th>
+                  <th className="border-blue-950 border bg-slate-300">
+                    Descrição
+                  </th>
+                  <th className="border-blue-950 border bg-slate-300">
+                    Resolução
+                  </th>
+                  <th className="w-1/12 border-blue-950 border bg-slate-300">
+                    Ações
+                  </th>
+                </tr>
+                {solvedRequests
+                  ?.filter((item) => {
+                    return searchSolved.toLowerCase() === ""
+                      ? item
+                      : item.description
+                          .toLowerCase()
+                          .includes(searchSolved.toLowerCase()) ||
+                          item.location
+                            .toLowerCase()
+                            .includes(searchSolved.toLowerCase()) ||
+                          item.code === Number.parseInt(searchSolved);
+                  })
+                  .map((item) => {
+                    return <SolvedRequestRow request={item} />;
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
 }
