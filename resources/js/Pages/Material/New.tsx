@@ -1,8 +1,8 @@
 import Menu from "@/components/Menu";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
-import { PageProps } from "@/types";
-import { userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -15,7 +15,7 @@ export default function New({ auth }: PageProps<{ auth: { user: userType } }>) {
 	const unitArray = ["Rolo", "Litro", "Serviço", "Pacote"];
 
 	function add() {
-		let payload = {
+		const payload = {
 			code,
 			unit,
 			description,

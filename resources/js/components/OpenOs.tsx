@@ -1,5 +1,4 @@
 import { Button } from "@/shadcn/ui/button";
-import { omType, requestType, userType, workshopType } from "@/types/custom";
 import {
 	Dialog,
 	DialogClose,
@@ -7,8 +6,14 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/shadcn/ui/dialog";
-import { useState } from "react";
+import type {
+	omType,
+	requestType,
+	userType,
+	workshopType,
+} from "@/types/custom";
 import { router } from "@inertiajs/react";
+import { useState } from "react";
 
 type openProps = {
 	request: requestType;
@@ -30,7 +35,7 @@ export default function OpenOs({ oms, workshops, user, request }: openProps) {
 	];
 
 	function open() {
-		let payload = {
+		const payload = {
 			priority,
 			nip: user.nip,
 			code_om: omCode,

@@ -1,7 +1,7 @@
 import Menu from "@/components/Menu";
 import LogoLargeSVG from "@/components/svg/logoLargeSVG";
-import { PageProps } from "@/types";
-import { userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { userType } from "@/types/custom";
 
 export default function About({
 	auth,

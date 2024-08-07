@@ -6,7 +6,7 @@ import {
 	DialogTrigger,
 } from "@/shadcn/ui/dialog";
 import { ScrollArea } from "@/shadcn/ui/scroll-area";
-import { requestType } from "@/types/custom";
+import type { requestType } from "@/types/custom";
 import { twMerge } from "tailwind-merge";
 
 type props = {

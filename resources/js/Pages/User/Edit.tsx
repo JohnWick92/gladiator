@@ -1,8 +1,13 @@
 import Menu from "@/components/Menu";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
-import { PageProps } from "@/types";
-import { omType, sectorType, userType, workshopType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type {
+	omType,
+	sectorType,
+	userType,
+	workshopType,
+} from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { InputMask } from "@react-input/mask";
 import { useRef, useState } from "react";
@@ -52,7 +57,7 @@ export default function Edit({
 	}
 
 	function update() {
-		let payload = {
+		const payload = {
 			nip,
 			name,
 			email,

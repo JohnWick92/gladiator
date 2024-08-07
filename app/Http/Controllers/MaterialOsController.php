@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MaterialOs;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class MaterialOsController extends Controller
@@ -10,7 +11,7 @@ class MaterialOsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -18,7 +19,7 @@ class MaterialOsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -26,7 +27,7 @@ class MaterialOsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, int $id): RedirectResponse
     {
         $history = new HistoricOsController;
         $materialOs = new MaterialOs;
@@ -38,13 +39,14 @@ class MaterialOsController extends Controller
         $materialOs->order_date = now();
         $materialOs->save();
         $history->saveHistory($request->nip, 'Adicionar material', $id);
+
         return back()->with('success', 'Material adicionado com sucesso');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(MaterialOs $materialOs)
+    public function show(MaterialOs $materialOs): void
     {
         //
     }
@@ -52,7 +54,7 @@ class MaterialOsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MaterialOs $materialOs)
+    public function edit(MaterialOs $materialOs): void
     {
         //
     }
@@ -60,20 +62,21 @@ class MaterialOsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         $history = new HistoricOsController;
         $materialOs = MaterialOs::where('code_os', $id)->where('code', $request->code)->first();
         $materialOs->quantity_used = $materialOs->quantity_used + $request->quantity_used;
         $materialOs->update();
         $history->saveHistory($request->nip, 'Registrar uso material', $id);
+
         return back()->with('success', 'Uso registrado com sucesso');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MaterialOs $materialOs)
+    public function destroy(MaterialOs $materialOs): void
     {
         //
     }

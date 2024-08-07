@@ -12,12 +12,15 @@ class AdminRoutes
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(): void  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         $profile = auth()->user()->profile_description;
-        if ($profile !== 'Administrador')
+        if ($profile !== 'Administrador') {
             return redirect('/')->with('unauthorized', 'Apenas o administradores gerais tem acesso');
+        }
+
         return $next($request);
     }
 }

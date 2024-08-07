@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\SolverOs;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class SolverOsController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @param  mixed  $id
      */
     // public function index()
     // {
@@ -26,7 +29,7 @@ class SolverOsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, int $id): RedirectResponse
     {
         $solverOs = new SolverOs;
         $history = new HistoricOsController;
@@ -34,6 +37,7 @@ class SolverOsController extends Controller
         $solverOs->nip = $request->solver_nip;
         $solverOs->save();
         $history->saveHistory($request->nip, 'Adicionar solucionador', $solverOs->code_os);
+
         return back()->with('success', 'Solucionador adicionado');
     }
 
@@ -64,12 +68,13 @@ class SolverOsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, int $id): RedirectResponse
     {
         $history = new HistoricOsController;
-        $solverOs = SolverOs::find($id);
+        $solverOs = SolverOs::query()->find($id);
         $solverOs->delete();
         $history->saveHistory($request->nip, 'Remover solucionador', $solverOs->code_os);
+
         return back()->with('success', 'Solucionador removido');
     }
 }

@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Material extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'code';
+
     public $incrementing = false;
+
     public $keyType = 'string';
 }

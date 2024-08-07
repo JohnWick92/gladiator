@@ -18,6 +18,7 @@ class MaterialController extends Controller
     public function index(): Response
     {
         $materials = Material::all();
+
         return Inertia::render('Material/Index', ['materials' => $materials]);
     }
 
@@ -34,13 +35,14 @@ class MaterialController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $material = new Material();
+        $material = new Material;
         $material->description = $request->description;
         $material->code = $request->code;
         $material->unit = $request->unit;
         $material->value = $request->value;
         $material->active = $request->active;
         $material->save();
+
         return redirect('/material');
     }
 
@@ -71,6 +73,7 @@ class MaterialController extends Controller
         $material->value = $request->value;
         $material->active = $request->active;
         $material->update();
+
         return redirect('/material');
     }
 
@@ -80,6 +83,7 @@ class MaterialController extends Controller
     public function destroy(Material $material): RedirectResponse
     {
         $material->delete();
+
         return redirect('/material');
     }
 }

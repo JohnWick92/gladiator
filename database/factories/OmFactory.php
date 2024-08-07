@@ -18,7 +18,7 @@ class OmFactory extends Factory
     {
         return [
             'description' => fake()->text(50),
-            'acronym' => fake()->text(15)
+            'acronym' => fake()->text(15),
         ];
     }
 }

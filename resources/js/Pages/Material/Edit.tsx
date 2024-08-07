@@ -1,8 +1,8 @@
 import Menu from "@/components/Menu";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
-import { PageProps } from "@/types";
-import { materialType, userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { materialType, userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ export default function Edit({
 	const unitArray = ["Rolo", "Litro", "Serviço", "Pacote"];
 
 	function update() {
-		let payload = {
+		const payload = {
 			code,
 			unit,
 			description,

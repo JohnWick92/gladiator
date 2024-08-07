@@ -6,7 +6,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/shadcn/ui/dialog";
-import { userType, workshopType } from "@/types/custom";
+import type { userType, workshopType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 

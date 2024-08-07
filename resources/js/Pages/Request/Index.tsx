@@ -9,11 +9,16 @@ import {
 } from "@/shadcn/ui/dialog";
 import { Input } from "@/shadcn/ui/input";
 import { ScrollArea } from "@/shadcn/ui/scroll-area";
-import { toast, Toaster } from "sonner";
-import { PageProps } from "@/types";
-import { omType, requestType, userType, workshopType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type {
+	omType,
+	requestType,
+	userType,
+	workshopType,
+} from "@/types/custom";
 import { router, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import { Toaster, toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 export default function Index({

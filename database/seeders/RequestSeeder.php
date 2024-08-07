@@ -13,25 +13,25 @@ class RequestSeeder extends Seeder
     public function run(): void
     {
         ModelRequest::create([
-            "description" => 'teste',
+            'description' => 'teste',
             'accepted' => false,
             'closed' => false,
             'nip' => '00.0000.00',
             'location' => 'teste',
             'canceled' => false,
             'request_date' => now(),
-            'priority' =>  'Alta'
+            'priority' => 'Alta',
         ]);
         ModelRequest::create([
-            "description" => 'teste',
+            'description' => 'teste',
             'accepted' => true,
             'closed' => true,
             'nip' => '00.0000.00',
             'location' => 'teste',
             'canceled' => false,
-            'priority' =>  'Alta',
+            'priority' => 'Alta',
             'request_date' => now(),
-            'resolution' => 'seeding'
+            'resolution' => 'seeding',
         ]);
     }
 }

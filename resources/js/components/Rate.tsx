@@ -21,7 +21,7 @@ export default function Rate(props: rateProps) {
 	const satisfactionArray = ["Muito", "Regular", "Ruim"];
 
 	function rate() {
-		let payload = {
+		const payload = {
 			complaint,
 			satisfaction,
 		};

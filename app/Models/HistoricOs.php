@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class HistoricOs extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'code';
 }

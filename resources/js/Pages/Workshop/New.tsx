@@ -1,8 +1,8 @@
 import Menu from "@/components/Menu";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
-import { PageProps } from "@/types";
-import { omType, userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { omType, userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -15,7 +15,7 @@ export default function New({
 	const [codeOm, setCodeOm] = useState(oms[0].code);
 
 	function add() {
-		let payload = {
+		const payload = {
 			description,
 			active,
 			codeOm,

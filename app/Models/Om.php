@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Om extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'code';
 }

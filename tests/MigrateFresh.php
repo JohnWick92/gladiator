@@ -10,7 +10,7 @@ trait MigrateFresh
     public function setUp(): void
     {
         parent::setUp();
-        if (!RefreshDatabaseState::$migrated) {
+        if (! RefreshDatabaseState::$migrated) {
             Artisan::call('migrate:fresh');
             RefreshDatabaseState::$migrated = true;
         }

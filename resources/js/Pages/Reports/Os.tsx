@@ -1,7 +1,7 @@
 import Menu from "@/components/Menu";
 import { Button } from "@/shadcn/ui/button";
-import { PageProps } from "@/types";
-import { osType, solversType, userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { osType, solversType, userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import {
 	Document,

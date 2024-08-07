@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Os;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class OsSeeder extends Seeder
@@ -18,7 +17,7 @@ class OsSeeder extends Seeder
             'priority' => 'Alta',
             'code_om' => 1,
             'code_workshop' => 1,
-            'code_request' => 1
+            'code_request' => 1,
         ]);
     }
 }

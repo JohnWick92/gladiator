@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Workshop extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'code';
 
     public function oms()

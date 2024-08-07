@@ -3,8 +3,8 @@ import ChangeSVG from "@/components/svg/changeSVG";
 import DeleteSVG from "@/components/svg/deleteSVG";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
-import { PageProps } from "@/types";
-import { omType, userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { omType, userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 

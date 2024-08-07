@@ -11,6 +11,7 @@ use Tests\TestCase;
 class SectorTest extends TestCase
 {
     use RefreshDatabase;
+
     private function fakeOm(): void
     {
         $om = new Om;
@@ -43,7 +44,6 @@ class SectorTest extends TestCase
         $response->assertOk();
     }
 
-
     public function test_sector_create(): void
     {
         $this->fakeUser();
@@ -51,12 +51,11 @@ class SectorTest extends TestCase
         $response->assertOk();
     }
 
-
     public function test_sector_edit(): void
     {
         $this->fakeUser();
         $this->fakeSector();
-        $response = $this->call('GET', '/sector/' . Sector::all()->first()->code . '/edit');
+        $response = $this->call('GET', '/sector/'.Sector::all()->first()->code.'/edit');
         $response->assertOk();
     }
 
@@ -77,7 +76,7 @@ class SectorTest extends TestCase
         $this->fakeUser();
         $this->fakeSector();
         $sector = Sector::all()->first();
-        $this->call('PUT', '/sector/' . $sector->code, [
+        $this->call('PUT', '/sector/'.$sector->code, [
             'description' => 'update',
             'acronym' => $sector->acronym,
             'codeOm' => $sector->code_om,
@@ -91,7 +90,7 @@ class SectorTest extends TestCase
         $this->fakeOm();
         $this->fakeSector();
         $this->assertDatabaseCount('sectors', 1);
-        $this->call('DELETE', '/sector/' . Sector::all()->first()->code);
+        $this->call('DELETE', '/sector/'.Sector::all()->first()->code);
         $this->assertDatabaseCount('sectors', 0);
     }
 }

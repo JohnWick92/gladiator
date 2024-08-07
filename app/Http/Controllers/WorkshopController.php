@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Om;
 use App\Models\Workshop;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,9 +17,10 @@ class WorkshopController extends Controller
     public function index(): Response
     {
         $workshops = Workshop::with('oms')->get();
+
         return Inertia::render(
             'Workshop/Index',
-            ['workshops' => $workshops,]
+            ['workshops' => $workshops]
         );
     }
 
@@ -28,6 +30,7 @@ class WorkshopController extends Controller
     public function create(): Response
     {
         $oms = Om::all();
+
         return Inertia::render('Workshop/New', [
             'oms' => $oms,
         ]);
@@ -36,14 +39,15 @@ class WorkshopController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $workshop = new Workshop();
+        $workshop = new Workshop;
         $workshop->description = $request->description;
         $workshop->active = $request->active;
         $workshop->code_om = $request->codeOm;
         $workshop->save();
-        return redirect()->to('/workshop');
+
+        return redirect('/workshop');
     }
 
     /**
@@ -60,6 +64,7 @@ class WorkshopController extends Controller
     public function edit(Workshop $workshop): Response
     {
         $oms = Om::all();
+
         return Inertia::render('Workshop/Edit', [
             'oms' => $oms,
             'workshop' => $workshop,
@@ -69,21 +74,23 @@ class WorkshopController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Workshop $workshop)
+    public function update(Request $request, Workshop $workshop): RedirectResponse
     {
         $workshop->description = $request->description;
         $workshop->active = $request->active;
         $workshop->code_om = $request->codeOm;
         $workshop->update();
-        return redirect()->to('/workshop');
+
+        return redirect('/workshop');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Workshop $workshop)
+    public function destroy(Workshop $workshop): RedirectResponse
     {
         $workshop->delete();
-        return redirect()->to('/workshop');
+
+        return redirect('/workshop');
     }
 }

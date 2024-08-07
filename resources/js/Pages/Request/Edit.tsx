@@ -1,8 +1,8 @@
 import Menu from "@/components/Menu";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
-import { PageProps } from "@/types";
-import { requestType, userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { requestType, userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ export default function Edit({
 	];
 
 	function update() {
-		let payload = {
+		const payload = {
 			code: request.code,
 			location,
 			priority,

@@ -1,6 +1,6 @@
 import { Button } from "@/shadcn/ui/button";
-import { PageProps } from "@/types";
-import { requestType, userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { requestType, userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import {
 	Document,

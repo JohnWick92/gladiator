@@ -6,7 +6,7 @@ import {
 	DialogTrigger,
 } from "@/shadcn/ui/dialog";
 import { Textarea } from "@/shadcn/ui/textarea";
-import { osType } from "@/types/custom";
+import type { osType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 

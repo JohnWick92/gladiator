@@ -21,7 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->string('location', 255);
             $table->boolean('closed')->default(false);
-            $table->text('resolution')->default("")->nullable();
+            $table->text('resolution')->default('')->nullable();
             $table->boolean('canceled')->default(false);
             $table->string('priority', 25);
             $table->timestamps();

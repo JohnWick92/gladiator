@@ -3,24 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Om;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class OmController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         $oms = Om::all();
+
         return Inertia::render('Om/Index', ['oms' => $oms]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Om/New');
     }
@@ -28,13 +31,14 @@ class OmController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $om = new Om;
         $om->description = $request->description;
         $om->acronym = $request->acronym;
         $om->save();
-        return redirect()->to('/om');
+
+        return redirect('/om');
     }
 
     /**
@@ -48,7 +52,7 @@ class OmController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Om $om)
+    public function edit(Om $om): Response
     {
         return Inertia::render('Om/Edit', ['om' => $om]);
     }
@@ -56,20 +60,22 @@ class OmController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Om $om)
+    public function update(Request $request, Om $om): RedirectResponse
     {
         $om->description = $request->description;
         $om->acronym = $request->acronym;
         $om->update();
-        return redirect()->to('/om');
+
+        return redirect('/om');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Om $om)
+    public function destroy(Om $om): RedirectResponse
     {
         $om->delete();
-        return redirect()->to('/om');
+
+        return redirect('/om');
     }
 }

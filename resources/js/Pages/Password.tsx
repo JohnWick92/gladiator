@@ -1,8 +1,8 @@
 import Menu from "@/components/Menu";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
-import { PageProps } from "@/types";
-import { userType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { InputMask } from "@react-input/mask";
 import { useState } from "react";
@@ -16,7 +16,7 @@ export default function Password({
 	const [confPasswd, setConfPasswd] = useState("");
 
 	function reset() {
-		let payload = {
+		const payload = {
 			new_password: resetPasswd,
 			nip: nipToReset,
 		};
@@ -27,7 +27,7 @@ export default function Password({
 
 	function change() {
 		if (confPasswd === newPasswd && newPasswd !== "") {
-			let payload = {
+			const payload = {
 				new_password: newPasswd,
 				nip: auth.user.nip,
 			};

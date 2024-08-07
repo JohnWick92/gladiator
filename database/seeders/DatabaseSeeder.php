@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             WorkshopSeeder::class,
             UserSeeder::class,
             RequestSeeder::class,
-            OsSeeder::class
+            OsSeeder::class,
         ]);
     }
 }

@@ -5,7 +5,6 @@ namespace App\Mail;
 use App\Models\ModelRequest;
 use App\Models\Os;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -21,8 +20,7 @@ class OpenOSMail extends Mailable
     public function __construct(
         public Os $os,
         public ModelRequest $request,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the message envelope.

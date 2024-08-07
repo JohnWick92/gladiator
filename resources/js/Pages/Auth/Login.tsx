@@ -1,10 +1,10 @@
 import LogoLargeSVG from "@/components/svg/logoLargeSVG";
 import { Button } from "@/shadcn/ui/button";
-import { PageProps } from "@/types";
+import type { PageProps } from "@/types";
 import { Head, router, usePage } from "@inertiajs/react";
 import { InputMask } from "@react-input/mask";
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 
 export default function Login() {
 	const { flash } = usePage().props as PageProps<{ flash: any }> & any;
@@ -12,7 +12,7 @@ export default function Login() {
 	const [password, setPassword] = useState("");
 
 	function auth() {
-		let payload = {
+		const payload = {
 			nip,
 			password,
 		};

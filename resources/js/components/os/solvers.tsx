@@ -7,7 +7,7 @@ import {
 	DialogTrigger,
 } from "@/shadcn/ui/dialog";
 import { ScrollArea } from "@/shadcn/ui/scroll-area";
-import { osType, userType } from "@/types/custom";
+import type { osType, userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 
 type solverProps = {

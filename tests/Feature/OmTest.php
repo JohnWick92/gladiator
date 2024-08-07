@@ -23,7 +23,7 @@ class OmTest extends BaseTestCase
     {
         $user = new User;
         $user->profile_description = 'Administrador';
-        auth()->setUser($user);
+        auth()()->setUser($user);
     }
 
     public function test_om_index(): void
@@ -44,7 +44,7 @@ class OmTest extends BaseTestCase
     {
         $this->fakeUser();
         $this->fakeOm();
-        $response = $this->call('GET', '/om/' . Om::all()->first()->code . '/edit');
+        $response = $this->call('GET', '/om/'.Om::all()->first()->code.'/edit');
         $response->assertOk();
     }
 
@@ -53,7 +53,7 @@ class OmTest extends BaseTestCase
         $this->fakeUser();
         $this->call('POST', '/om', [
             'acronym' => 'teste',
-            'description' => 'teste'
+            'description' => 'teste',
         ]);
         $this->assertDatabaseCount('oms', 1);
     }
@@ -62,9 +62,9 @@ class OmTest extends BaseTestCase
     {
         $this->fakeUser();
         $this->fakeOm();
-        $this->call('PUT', '/om/' . Om::all()->first()->code, [
+        $this->call('PUT', '/om/'.Om::all()->first()->code, [
             'acronym' => 'update',
-            'description' => 'teste'
+            'description' => 'teste',
         ]);
         $this->assertEquals(Om::all()->first()->acronym, 'update');
     }
@@ -74,7 +74,7 @@ class OmTest extends BaseTestCase
         $this->fakeUser();
         $this->fakeOm();
         $this->assertDatabaseCount('oms', 1);
-        $this->call('DELETE', '/om/' . Om::all()->first()->code);
+        $this->call('DELETE', '/om/'.Om::all()->first()->code);
         $this->assertDatabaseCount('oms', 0);
     }
 }

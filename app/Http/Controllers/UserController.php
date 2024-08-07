@@ -2,47 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Om;
 use App\Models\ModelRequest;
+use App\Models\Om;
 use App\Models\Sector;
 use App\Models\User;
 use App\Models\Workshop;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class UserController extends Controller
 {
-    public function password()
+    public function password(): Response
     {
         return Inertia::render('Password');
     }
 
-    public function reset(Request $request)
+    public function reset(Request $request): RedirectResponse
     {
-        $user = User::find($request->nip);
+        $user = User::query()->find($request->nip);
         $user->password = Hash::make($request->new_password);
         $user->update();
-        if ($user->nip == auth()->guard()->user()->nip) {
-            auth()->guard()->logout();
-            return redirect()->to('/login');
+        if ($user->nip == auth()->user()->nip) {
+            auth()->logout();
+
+            return redirect('/login');
         }
+
         return back();
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
     {
-        auth()->guard()->logout();
-        return redirect()->to('/login');
+        auth()->logout();
+
+        return redirect('/login');
     }
 
-    public function login()
+    public function login(): Response
     {
         return Inertia::render('Auth/Login');
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
             'nip' => ['required'],
@@ -51,7 +56,8 @@ class UserController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+
+            return redirect('/');
         }
 
         return back()->with('loginError', 'Credenciais erradas e/ou inválidas');
@@ -60,29 +66,31 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         $users = User::all();
         $oms = Om::all();
         $sectors = Sector::all();
         $workshops = Workshop::all();
-        return Inertia::render('User/Index',  [
+
+        return Inertia::render('User/Index', [
             'oms' => $oms,
             'sectors' => $sectors,
             'workshops' => $workshops,
-            'users' => $users
+            'users' => $users,
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         $oms = Om::all();
         $sectors = Sector::all();
         $workshops = Workshop::all();
-        return Inertia::render('User/New',  [
+
+        return Inertia::render('User/New', [
             'oms' => $oms,
             'sectors' => $sectors,
             'workshops' => $workshops,
@@ -92,7 +100,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $user = new User;
         $user->name = $request->name;
@@ -107,7 +115,8 @@ class UserController extends Controller
         $user->code_workshop = $request->codeWorkshop;
         $user->code_sector = $request->codeSector;
         $user->save();
-        return redirect()->to('/user');
+
+        return redirect('/user');
     }
 
     /**
@@ -121,12 +130,13 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $user): Response
     {
         $oms = Om::all();
         $sectors = Sector::all();
         $workshops = Workshop::all();
-        return Inertia::render('User/Edit',  [
+
+        return Inertia::render('User/Edit', [
             'oms' => $oms,
             'sectors' => $sectors,
             'workshops' => $workshops,
@@ -137,7 +147,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $user->name = $request->name;
         $user->profile_description = $request->profile;
@@ -150,22 +160,27 @@ class UserController extends Controller
         $user->code_sector = $request->codeWorkshop;
         $user->code_sector = $request->codeSector;
         $user->update();
-        return redirect()->to('/user');
+
+        return redirect('/user');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $user->delete();
-        return redirect()->to('/user');
+
+        return redirect('/user');
     }
 
-    public function requests()
+    public function requests(): Response
     {
-        $solvedReq = ModelRequest::with('users')->whereNot('resolution', "")->where('closed', false)->where('nip', auth()->guard()->user()->nip)->get();
-        $openReq = ModelRequest::with('users')->where('resolution', "")->where('closed', false)->where('nip', auth()->guard()->user()->nip)->get();
-        return  Inertia::render('Home', ['solvedRequests' => $solvedReq, 'openRequests' => $openReq]);
+        $solvedReq = ModelRequest::with('users')->whereNot('resolution', '')->where('closed', false)->
+            where('nip', auth()->user()->nip)->get();
+        $openReq = ModelRequest::with('users')->where('resolution', '')
+            ->where('closed', false)->where('nip', auth()->user()->nip)->get();
+
+        return Inertia::render('Home', ['solvedRequests' => $solvedReq, 'openRequests' => $openReq]);
     }
 }

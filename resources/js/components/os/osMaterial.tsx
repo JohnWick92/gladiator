@@ -8,7 +8,7 @@ import {
 } from "@/shadcn/ui/dialog";
 import { Input } from "@/shadcn/ui/input";
 import { ScrollArea } from "@/shadcn/ui/scroll-area";
-import { materialType, osType } from "@/types/custom";
+import type { materialType, osType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 
 type materialTable = {
@@ -28,8 +28,8 @@ type props = {
 };
 
 function OsMaterial({ os, nip, materials }: props) {
-	let materialUsedTable: materialUsedTable[] = [];
-	let materialTable: materialTable[] = [];
+	const materialUsedTable: materialUsedTable[] = [];
+	const materialTable: materialTable[] = [];
 
 	materials.forEach((item) => {
 		materialTable.push({

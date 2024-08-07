@@ -10,7 +10,7 @@ class HistoricOsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -18,7 +18,7 @@ class HistoricOsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -26,7 +26,7 @@ class HistoricOsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
@@ -34,7 +34,7 @@ class HistoricOsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HistoricOs $historicOs)
+    public function show(HistoricOs $historicOs): void
     {
         //
     }
@@ -42,7 +42,7 @@ class HistoricOsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(HistoricOs $historicOs)
+    public function edit(HistoricOs $historicOs): void
     {
         //
     }
@@ -50,7 +50,7 @@ class HistoricOsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, HistoricOs $historicOs)
+    public function update(Request $request, HistoricOs $historicOs): void
     {
         //
     }
@@ -58,12 +58,12 @@ class HistoricOsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HistoricOs $historicOs)
+    public function destroy(HistoricOs $historicOs): void
     {
         //
     }
 
-    public function saveHistory(string $nip, string $operation, int $code_os)
+    public function saveHistory(string $nip, string $operation, int $code_os): void
     {
         $history = new HistoricOs;
         $history->nip = $nip;

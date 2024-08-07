@@ -12,12 +12,14 @@ class EnsureAuthUser
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(): void  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check()) {
-            return redirect()->to('/login');
+        if (! auth()->check()) {
+            return redirect('/login');
         }
+
         return $next($request);
     }
 }

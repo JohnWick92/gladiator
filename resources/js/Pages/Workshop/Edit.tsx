@@ -1,8 +1,8 @@
 import Menu from "@/components/Menu";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
-import { PageProps } from "@/types";
-import { omType, userType, workshopType } from "@/types/custom";
+import type { PageProps } from "@/types";
+import type { omType, userType, workshopType } from "@/types/custom";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -20,7 +20,7 @@ export default function Edit({
 	const [codeOm, setCodeOm] = useState(workshop.code_om);
 
 	function update() {
-		let payload = {
+		const payload = {
 			codeOm,
 			active,
 			description,
