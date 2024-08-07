@@ -109,7 +109,7 @@ export default function Index({
 												<Dialog>
 													<DialogTrigger>
 														{request.description.length > 100
-															? request.description.substring(0, 100) + "..."
+															? `${request.description.substring(0, 100)}...`
 															: request.description}
 													</DialogTrigger>
 													<DialogContent

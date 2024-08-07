@@ -188,7 +188,7 @@ export default function New({
 							ref={workshopRef}
 						>
 							{workshops
-								?.filter((item) => item.code_om == codeOm)
+								?.filter((item) => item.code_om === codeOm)
 								.map((item) => {
 									return (
 										<option key={item.code} value={item.code}>
@@ -204,7 +204,7 @@ export default function New({
 							onChange={(e) => setCodeSector(Number.parseInt(e.target.value))}
 						>
 							{sectors
-								?.filter((item) => item.code_om == codeOm)
+								?.filter((item) => item.code_om === codeOm)
 								.map((item) => {
 									return (
 										<option key={item.code} value={item.code}>

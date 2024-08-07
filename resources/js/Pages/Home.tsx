@@ -108,7 +108,7 @@ export default function Home({
 										return !item.canceled;
 									})
 									.map((item) => {
-										return <OpenRequestRow request={item} />;
+										return <OpenRequestRow request={item} key={item.code} />;
 									})}
 							</tbody>
 						</table>
@@ -160,7 +160,7 @@ export default function Home({
 													item.code === Number.parseInt(searchSolved);
 									})
 									.map((item) => {
-										return <SolvedRequestRow request={item} />;
+										return <SolvedRequestRow request={item} key={item.code} />;
 									})}
 							</tbody>
 						</table>

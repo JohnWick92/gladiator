@@ -26,7 +26,7 @@ export default function SolvedRequesRow({ request }: props) {
 				<Dialog>
 					<DialogTrigger>
 						{request.description.length > 100
-							? request.description.substring(0, 100) + "..."
+							? `${request.description.substring(0, 100)}...`
 							: request.description}
 					</DialogTrigger>
 					<DialogContent
@@ -48,7 +48,7 @@ export default function SolvedRequesRow({ request }: props) {
 				<Dialog>
 					<DialogTrigger>
 						{request.resolution.length > 100
-							? request.resolution.substring(0, 100) + "..."
+							? `${request.resolution.substring(0, 100)}...`
 							: request.resolution}
 					</DialogTrigger>
 					<DialogContent

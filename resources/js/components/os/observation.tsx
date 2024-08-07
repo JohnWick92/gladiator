@@ -27,7 +27,7 @@ function Observation(props: observationProps) {
 	);
 
 	function save() {
-		let observationToSave;
+		let observationToSave: string;
 		if (props.profile === "Aux. Oficina") {
 			observationToSave = observationAux;
 		} else {

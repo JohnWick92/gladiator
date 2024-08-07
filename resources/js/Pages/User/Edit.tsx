@@ -49,7 +49,7 @@ export default function Edit({
 		if (!solver) {
 			workshopRef.current!.disabled = false;
 			workshopRef.current!.selectedIndex = 0;
-			setCodeWorkshop(Number.parseInt(workshopRef.current!.value));
+			setCodeWorkshop(Number.parseInt(workshopRef.current?.value));
 		} else {
 			workshopRef.current!.disabled = true;
 			setCodeWorkshop(undefined);
@@ -176,7 +176,7 @@ export default function Edit({
 							ref={workshopRef}
 						>
 							{workshops
-								?.filter((item) => item.code_om == codeOm)
+								?.filter((item) => item.code_om === codeOm)
 								.map((item) => {
 									return (
 										<option key={item.code} value={item.code}>
@@ -193,7 +193,7 @@ export default function Edit({
 							defaultValue={user.code_sector}
 						>
 							{sectors
-								?.filter((item) => item.code_om == codeOm)
+								?.filter((item) => item.code_om === codeOm)
 								.map((item) => {
 									return (
 										<option key={item.code} value={item.code}>

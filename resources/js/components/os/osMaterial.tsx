@@ -31,19 +31,19 @@ function OsMaterial({ os, nip, materials }: props) {
 	const materialUsedTable: materialUsedTable[] = [];
 	const materialTable: materialTable[] = [];
 
-	materials.forEach((item) => {
+	for (const item of materials) {
 		materialTable.push({
 			amount: 0,
 			code: item.code,
 		});
-	});
+	}
 
-	os.materials_os?.forEach((item) => {
+	for (const item of os.materials_os!) {
 		materialUsedTable.push({
 			amount: item.amount,
 			code: item.code,
 		});
-	});
+	}
 
 	return (
 		<Dialog>

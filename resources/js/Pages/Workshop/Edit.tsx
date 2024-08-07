@@ -55,7 +55,7 @@ export default function Edit({
 					</div>
 					<div className="flex w-1/2 m-auto pb-4">
 						<select
-							disabled={auth.user!.profile_description === "Chefe do apoio"}
+							disabled={auth.user?.profile_description === "Chefe do apoio"}
 							className="w-full h-10 rounded-md border border-input"
 							onChange={(e) => setCodeOm(Number.parseInt(e.target.value))}
 							defaultValue={workshop.code_om}

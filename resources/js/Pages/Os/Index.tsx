@@ -2,12 +2,11 @@ import Menu from "@/components/Menu";
 import CanceledOsRow from "@/components/table/os/CanceledOsRow";
 import OpenOsRow from "@/components/table/os/OpenOsRow";
 import ToCancelOsRow from "@/components/table/os/ToCancelOsRow";
-import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs";
 import type { PageProps } from "@/types";
 import type { osType, userType } from "@/types/custom";
-import { router, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 
@@ -122,9 +121,9 @@ export default function Os({
 										Confirmar
 									</th>
 								</tr>
-								{osListToCancel.map((item) => {
-									return <ToCancelOsRow os={item} user={auth.user} />;
-								})}
+								{osListToCancel.map((item) => (
+									<ToCancelOsRow os={item} user={auth.user} key={item.code} />
+								))}
 							</tbody>
 						</table>
 					</div>
@@ -150,9 +149,9 @@ export default function Os({
 										OM
 									</th>
 								</tr>
-								{canceledOs.map((item) => {
-									return <CanceledOsRow os={item} />;
-								})}
+								{canceledOs.map((item) => (
+									<CanceledOsRow os={item} key={item.code} />
+								))}
 							</tbody>
 						</table>
 					</div>

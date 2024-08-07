@@ -89,7 +89,7 @@ export default function OsReport({
 								<View style={{ marginBottom: 20 }}>
 									<Text>Solucionadores:</Text>
 									{solvers?.map((solver) => {
-										return <Text>{solver.name}</Text>;
+										return <Text key={solver.code}>{solver.name}</Text>;
 									})}
 								</View>
 								<Text>Observações Enc. Oficina:</Text>
