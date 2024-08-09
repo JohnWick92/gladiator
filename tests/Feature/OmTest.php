@@ -4,77 +4,52 @@ namespace Tests\Feature;
 
 use App\Models\Om;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase as BaseTestCase;
 
-class OmTest extends BaseTestCase
-{
-    use RefreshDatabase;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseCount;
 
-    private function fakeOm(): void
-    {
-        $om = new Om;
-        $om->acronym = 'teste';
-        $om->description = 'teste';
-        $om->save();
-    }
+test('om index', function () {
+    $user = User::factory()->create();
+    $response = actingAs($user)->get('/om');
+    $response->assertOk();
+});
 
-    private function fakeUser(): void
-    {
-        $user = new User;
-        $user->profile_description = 'Administrador';
-        auth()()->setUser($user);
-    }
+test('om create', function () {
+    $user = User::factory()->create();
+    $response = actingAs($user)->get('/om/create');
+    $response->assertOk();
+});
 
-    public function test_om_index(): void
-    {
-        $this->fakeUser();
-        $response = $this->call('GET', '/om');
-        $response->assertOk();
-    }
+test('om edit', function () {
+    $user = User::factory()->create();
+    $om = Om::factory()->create();
+    $response = actingAs($user)->get('/om/'.$om->code.'/edit');
+    $response->assertOk();
+});
 
-    public function test_om_create(): void
-    {
-        $this->fakeUser();
-        $response = $this->call('GET', '/om/create');
-        $response->assertOk();
-    }
+test('om store', function () {
+    $user = User::factory()->create();
+    actingAs($user)->post('/om', [
+        'acronym' => 'test',
+        'description' => 'test',
+    ]);
+    assertDatabaseCount('oms', 2);
+});
 
-    public function test_om_edit(): void
-    {
-        $this->fakeUser();
-        $this->fakeOm();
-        $response = $this->call('GET', '/om/'.Om::all()->first()->code.'/edit');
-        $response->assertOk();
-    }
+test('om update', function () {
+    $user = User::factory()->create();
+    $om = Om::factory()->create();
+    actingAs($user)->put('/om/'.$om->code, [
+        'acronym' => 'update',
+        'description' => $om->description,
+    ]);
+    expect('update')->toEqual(Om::query()->find($om->code)->acronym);
+});
 
-    public function test_om_store(): void
-    {
-        $this->fakeUser();
-        $this->call('POST', '/om', [
-            'acronym' => 'teste',
-            'description' => 'teste',
-        ]);
-        $this->assertDatabaseCount('oms', 1);
-    }
-
-    public function test_om_update(): void
-    {
-        $this->fakeUser();
-        $this->fakeOm();
-        $this->call('PUT', '/om/'.Om::all()->first()->code, [
-            'acronym' => 'update',
-            'description' => 'teste',
-        ]);
-        $this->assertEquals(Om::all()->first()->acronym, 'update');
-    }
-
-    public function test_om_destroy(): void
-    {
-        $this->fakeUser();
-        $this->fakeOm();
-        $this->assertDatabaseCount('oms', 1);
-        $this->call('DELETE', '/om/'.Om::all()->first()->code);
-        $this->assertDatabaseCount('oms', 0);
-    }
-}
+test('om destroy', function () {
+    $user = User::factory()->create();
+    $om = Om::factory()->create();
+    assertDatabaseCount('oms', 2);
+    actingAs($user)->delete('/om/'.$om->code);
+    assertDatabaseCount('oms', 1);
+});

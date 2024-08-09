@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Om;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,12 @@ class SectorFactory extends Factory
      */
     public function definition(): array
     {
+        $om = Om::factory()->create();
+
         return [
-            //
+            'description' => fake()->text(20),
+            'acronym' => fake()->text(20),
+            'code_om' => $om->code,
         ];
     }
 }
