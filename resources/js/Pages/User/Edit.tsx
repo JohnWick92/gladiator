@@ -49,7 +49,7 @@ export default function Edit({
 		if (!solver) {
 			workshopRef.current!.disabled = false;
 			workshopRef.current!.selectedIndex = 0;
-			setCodeWorkshop(Number.parseInt(workshopRef.current?.value));
+			setCodeWorkshop(Number.parseInt(workshopRef.current!.value));
 		} else {
 			workshopRef.current!.disabled = true;
 			setCodeWorkshop(undefined);
