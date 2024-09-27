@@ -1,0 +1,31 @@
+# Create volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  creationTimestamp: "2024-09-26T23:22:38Z"
+  name: gladiator-vol
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  hostPath:
+    path: /kubeVolumes/gladiatorDB
+status: {}
+---
+#Criar o claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gladiator-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: standard
+---
+
