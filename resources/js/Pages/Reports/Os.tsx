@@ -116,7 +116,10 @@ export default function OsReport({
 			<Button
 				className="flex w-1/6 my-5 mx-auto"
 				onClick={() => {
-					router.get(`/os/${os.code}`);
+					if (!os.closed || !os.solved) {
+						router.get(`/os/${os.code}`);
+					}
+					router.get("/os");
 				}}
 			>
 				Voltar

@@ -1,5 +1,6 @@
 import Menu from "@/components/Menu";
 import CanceledOsRow from "@/components/table/os/CanceledOsRow";
+import ClosedOsRow from "@/components/table/os/ClosedOsRow";
 import OpenOsRow from "@/components/table/os/OpenOsRow";
 import ToCancelOsRow from "@/components/table/os/ToCancelOsRow";
 import { Input } from "@/shadcn/ui/input";
@@ -15,11 +16,13 @@ export default function Os({
 	canceledOs,
 	osListToCancel,
 	osList,
+	closedOs,
 }: PageProps<{
 	auth: { user: userType };
 	osList: osType[];
 	osListToCancel: osType[];
 	canceledOs: osType[];
+	closedOs: osType[];
 }>) {
 	const [search, setSearch] = useState("");
 	const { flash } = usePage().props as PageProps<{ flash: any }> & any;
@@ -43,6 +46,7 @@ export default function Os({
 					<TabsTrigger value="ongoing">Os em aberto</TabsTrigger>
 					<TabsTrigger value="toCancel">Aguardando cancelamento</TabsTrigger>
 					<TabsTrigger value="canceled">Cancelados</TabsTrigger>
+					<TabsTrigger value="closed">Fechadas</TabsTrigger>
 				</TabsList>
 				<TabsContent value="ongoing">
 					<div className="mt-10 items-center justify-center w-full m-auto text-xl">
@@ -151,6 +155,37 @@ export default function Os({
 								</tr>
 								{canceledOs.map((item) => (
 									<CanceledOsRow os={item} key={item.code} />
+								))}
+							</tbody>
+						</table>
+					</div>
+				</TabsContent>
+				<TabsContent value="closed">
+					<div className="mt-10 items-center justify-center w-full m-auto text-xl">
+						<table className="w-3/4 m-auto">
+							<tbody>
+								<tr className="text-center">
+									<th className="w-1/12 border-blue-950 border bg-slate-300">
+										Nº OS
+									</th>
+									<th className="w-1/12 border-blue-950 border bg-slate-300">
+										Nº Pedido
+									</th>
+									<th className="border-blue-950 border bg-slate-300">
+										Status
+									</th>
+									<th className="w-1/12 border-blue-950 border bg-slate-300">
+										Prioridade
+									</th>
+									<th className="w-1/12 border-blue-950 border bg-slate-300">
+										OM
+									</th>
+									<th className="border-blue-950 border bg-slate-300">
+										Mais detalhes
+									</th>
+								</tr>
+								{closedOs.map((item) => (
+									<ClosedOsRow item={item} key={item.code} />
 								))}
 							</tbody>
 						</table>
