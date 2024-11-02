@@ -104,12 +104,6 @@ export default function About({
 						via WEB e atualizar as tecnologias nele empregadas além de
 						amplificação de sua abrangência.
 					</p>
-					<br />
-					<hr />
-					<div className="text-center py-5">
-						<h1>Gladiador versão 3.0.0</h1>
-						<h2>Desenvolvido por: Elias & Josué Ferreira</h2>
-					</div>
 				</div>
 			</div>
 		</div>

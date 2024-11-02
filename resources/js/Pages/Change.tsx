@@ -14,12 +14,18 @@ export default function Change({
 					<LogoLargeSVG />
 				</div>
 				<div className="mt-20">
-					<h1>
-						Agora a descrição dos pedidos é compactada caso tenha tamanho maior
-						que 100 caracters, ... indica que ela foi compactada.
-						<br />
-						Para abrir basta clicar sobre
-					</h1>
+					<p>
+						<p className="text-center py-10">Versão 3.0.3</p>
+						<h1>
+							Agora a descrição dos pedidos é compactada caso tenha tamanho
+							maior que 100 caracters, ... indica que ela foi compactada. Para
+							abrir basta clicar sobre
+						</h1>
+					</p>
+					<p>
+						<p className="text-center py-10">Versão 3.0.4</p>
+						<h1>Agora OS que foram fechadas podem ser visualizadas</h1>
+					</p>
 				</div>
 			</div>
 		</div>

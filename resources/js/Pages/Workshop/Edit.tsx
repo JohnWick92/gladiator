@@ -30,7 +30,7 @@ export default function Edit({
 	}
 
 	return (
-		<div className="w-full">
+		<div className="w-full h-screen">
 			<Menu profile_description={auth.user.profile_description} />
 			<div className="py-5 mt-4">
 				<div className="items-center justify-center w-1/2 m-auto">

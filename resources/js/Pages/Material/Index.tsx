@@ -16,7 +16,7 @@ export default function Index({
 }: PageProps<{ materials: materialType[]; auth: { user: userType } }>) {
 	const [search, setSearch] = useState("");
 	return (
-		<div className="w-full">
+		<div className="w-full h-screen">
 			<Menu profile_description={auth.user.profile_description} />
 			<div className="mt-10 items-center justify-center w-full m-auto text-xl">
 				<div className="items-center justify-center w-1/4 m-auto pb-10">

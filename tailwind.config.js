@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export const darkMode = ["class"];
+export default ["class"];
 export const content = ["resources/js/**/*.tsx"];
 export const prefix = "";
 export const theme = {
