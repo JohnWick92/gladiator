@@ -43,7 +43,7 @@ export default function Show({
 	}, [flash]);
 
 	return (
-		<div className="w-full h-screen">
+		<div >
 			{flash.success && <Toaster />}
 			<Menu profile_description={auth.user.profile_description} />
 			<div className="flex-row w-4/5 m-auto">

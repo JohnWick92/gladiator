@@ -54,7 +54,7 @@ function Observation(props: observationProps) {
 				<DialogTitle className="text-center">Observações da OS</DialogTitle>
 				<ScrollArea className="h-full">
 					<div className="w-full m-auto">
-						<div className="w-full h-screen">
+						<div >
 							<p>Observações encarregado</p>
 							<Textarea
 								disabled={props.profile === "Aux. Oficina"}
@@ -65,7 +65,7 @@ function Observation(props: observationProps) {
 						</div>
 					</div>
 					<div className="w-full m-auto">
-						<div className="w-full h-screen">
+						<div >
 							<p>Observações solucionadores</p>
 							<Textarea
 								disabled={props.profile !== "Aux. Oficina"}

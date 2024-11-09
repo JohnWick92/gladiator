@@ -45,7 +45,7 @@ export default function Home({
 	}, [flash]);
 
 	return (
-		<div className="w-full h-screen">
+		<div >
 			<Toaster />
 			<Menu profile_description={auth.user.profile_description} />
 			<Tabs defaultValue="open">
@@ -115,7 +115,7 @@ export default function Home({
 					</div>
 				</TabsContent>
 				<TabsContent value="solved">
-					<div className="w-full h-screen">
+					<div >
 						<div className="items-center justify-center w-1/4 m-auto pb-10">
 							<Input
 								onChange={(e) => setSearchSolved(e.target.value)}

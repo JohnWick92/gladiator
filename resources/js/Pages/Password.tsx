@@ -36,7 +36,7 @@ export default function Password({
 	}
 
 	return (
-		<div className="w-full h-screen">
+		<div >
 			<Menu profile_description={auth.user.profile_description} />
 			{auth.user.profile_description === "Administrador" ? (
 				<div className="py-5 mt-4">

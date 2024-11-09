@@ -38,7 +38,7 @@ export default function Os({
 	}, [flash]);
 
 	return (
-		<div className="w-full h-screen">
+		<div >
 			{flash.success && <Toaster />}
 			<Menu profile_description={auth.user.profile_description} />
 			<Tabs defaultValue="ongoing">

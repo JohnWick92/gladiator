@@ -18,7 +18,7 @@ export default function Index({
 	const [search, setSearch] = useState("");
 
 	return (
-		<div className="w-full h-screen">
+		<div >
 			<Menu profile_description={auth.user.profile_description} />
 			<div className="mt-10 items-center justify-center w-full m-auto text-xl">
 				<div className="items-center justify-center w-1/4 m-auto pb-10">

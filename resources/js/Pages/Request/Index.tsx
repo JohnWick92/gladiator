@@ -48,7 +48,7 @@ export default function Index({
 	}, [flash]);
 
 	return (
-		<div className="w-full h-screen">
+		<div >
 			<Toaster />
 			<Menu profile_description={auth.user.profile_description} />
 			<div className="mt-10 items-center justify-center w-full m-auto text-xl">

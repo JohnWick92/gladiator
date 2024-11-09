@@ -2,8 +2,8 @@ import type { ReactElement } from "react";
 
 export default function Layout(props: { children: ReactElement }) {
 	return (
-		<div>
-			<div>{props.children}</div>
+		<div className="flex flex-col min-h-screen">
+			<div className="min-h-screen">{props.children}</div>
 			<footer>
 				<hr />
 				<div className="text-center py-5">

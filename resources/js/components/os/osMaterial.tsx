@@ -57,7 +57,7 @@ function OsMaterial({ os, nip, materials }: props) {
 			</DialogTrigger>
 			<DialogContent className="" aria-describedby={undefined}>
 				<DialogTitle className="text-center">Gerenciar materiais</DialogTitle>
-				<div className="w-full h-screen">
+				<div >
 					<div className="w-full my-20 m-auto">
 						<ScrollArea className="h-full">
 							<table className="w-full m-auto">
