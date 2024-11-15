@@ -4,12 +4,12 @@ import { Input } from "@/shadcn/ui/input";
 import type { PageProps } from "@/types";
 import type { userType } from "@/types/custom";
 import { router } from "@inertiajs/react";
-import { InputMask } from "@react-input/mask";
 import { useState } from "react";
 
 export default function Password({
 	auth,
-}: PageProps<{ auth: { user: userType } }>) {
+	users,
+}: PageProps<{ auth: { user: userType }; users: userType[] }>) {
 	const [resetPasswd, setResetPasswd] = useState("");
 	const [nipToReset, setNipToReset] = useState("");
 	const [newPasswd, setNewPasswd] = useState("");
@@ -36,9 +36,10 @@ export default function Password({
 	}
 
 	return (
-		<div >
+		<div>
 			<Menu profile_description={auth.user.profile_description} />
-			{auth.user.profile_description === "Administrador" ? (
+			{auth.user.profile_description === "Administrador" ||
+			auth.user.profile_description === "Chefe do apoio" ? (
 				<div className="py-5 mt-4">
 					<div className="text-center items-center justify-center w-1/2 m-auto border p-4 bg-slate-300">
 						<p className="mb-5">Alterar sua senha</p>
@@ -69,14 +70,19 @@ export default function Password({
 					<div className="text-center items-center justify-center w-1/2 m-auto border mt-10 p-4 bg-slate-300">
 						<p className="mb-5">Resetar a senha de um usuário</p>
 						<div className="flex w-1/2 m-auto py-3">
-							<InputMask
-								className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-								placeholder="Nip"
-								mask="__.____.__"
-								replacement={{ _: /\d/ }}
-								value={nipToReset}
+							<select
+								className="w-full h-10 rounded-md border border-input"
+								defaultValue={auth.user.nip}
 								onChange={(e) => setNipToReset(e.target.value)}
-							/>
+							>
+								{users.map((item) => {
+									return (
+										<option value={item.nip} key={item.nip}>
+											{item.name}
+										</option>
+									);
+								})}
+							</select>
 						</div>
 						<div className="flex w-1/2 m-auto py-3">
 							<Input

@@ -18,7 +18,16 @@ class UserController extends Controller
 {
     public function password(): Response
     {
-        return Inertia::render('Password');
+        $users = null;
+        if (auth()->user()->profile_description == 'Chefe do apoio') {
+            $users = User::where('code_om', auth()->user()->code_om)->get();
+        }
+
+        if (auth()->user()->profile_description == 'Administrador') {
+            $users = User::all();
+        }
+
+        return Inertia::render('Password', ['users' => $users]);
     }
 
     public function reset(Request $request): RedirectResponse
