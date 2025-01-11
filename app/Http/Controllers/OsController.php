@@ -78,16 +78,16 @@ class OsController extends Controller
         $os->code_om = $request->code_om;
         $os->code_workshop = $request->code_workshop;
         $os->priority = $request->priority;
-        $code_os = $os->save();
-        $history->saveHistory($request->nip, 'Abrir OS', $code_os);
+        $os->save();
+        $history->saveHistory($request->nip, 'Abrir OS', $os->code);
         $requestOpened = ModelRequest::query()->find($request->code_request);
         $requestOpened->accepted = true;
-        $requestOpened->update();
+        // $requestOpened->update();
         $mailRequest = ModelRequest::query()->find($requestOpened->code);
-        $mailOS = Os::query()->find($code_os);
-        Mail::to(User::query()->find($requestOpened->nip))->send(new OpenOSMail($mailOS, $mailRequest));
+        return dd($os);
+        // Mail::to(User::query()->find($requestOpened->nip))->send(new OpenOSMail($mailOS, $mailRequest));
 
-        return redirect('/request');
+        // return redirect('/request');
     }
 
     /**
