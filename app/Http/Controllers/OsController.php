@@ -82,12 +82,11 @@ class OsController extends Controller
         $history->saveHistory($request->nip, 'Abrir OS', $os->code);
         $requestOpened = ModelRequest::query()->find($request->code_request);
         $requestOpened->accepted = true;
-        // $requestOpened->update();
+        $requestOpened->update();
         $mailRequest = ModelRequest::query()->find($requestOpened->code);
-        return dd($os);
-        // Mail::to(User::query()->find($requestOpened->nip))->send(new OpenOSMail($mailOS, $mailRequest));
+        Mail::to(User::query()->find($requestOpened->nip))->send(new OpenOSMail($os, $mailRequest));
 
-        // return redirect('/request');
+        return redirect('/request');
     }
 
     /**
