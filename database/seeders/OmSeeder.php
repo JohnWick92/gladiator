@@ -12,6 +12,10 @@ class OmSeeder extends Seeder
      */
     public function run(): void
     {
-        Om::factory(5)->create();
+        Om::create([
+            'description' => 'teste',
+            'acronym' => 'teste',
+            'code' => 1,
+        ]);
     }
 }
