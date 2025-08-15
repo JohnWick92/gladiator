@@ -28,15 +28,15 @@ class RequestController extends Controller
         $workshops = Workshop::all();
         switch (auth()->user()->profile_description) {
             case 'Administrador':
-                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', '')->get();
+                $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', '')->orderBy('code')->get();
                 break;
             case 'Chefe do apoio':
                 $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', '')
-                    ->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
+                    ->whereRelation('users', 'code_om', auth()->user()->code_om)->orderBy('code')->get();
                 break;
             case 'Enc. Oficina':
                 $requests = ModelRequest::with('users')->where('closed', false)->where('resolution', null)->orWhere('resolution', '')
-                    ->whereRelation('users', 'code_om', auth()->user()->code_om)->get();
+                    ->whereRelation('users', 'code_om', auth()->user()->code_om)->orderBy('code')->get();
                 break;
             default:
                 return redirect('/');

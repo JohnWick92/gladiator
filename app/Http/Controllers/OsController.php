@@ -32,19 +32,19 @@ class OsController extends Controller
         $closedOs = Os::with('oms')->whereAny(['closed', 'solved'], true)->whereAny(['canceled', 'req_canceled'], false)->get();
         switch (auth()->user()->profile_description) {
             case 'Administrador':
-                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
+                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)->orderBy('code')
                     ->get();
                 break;
             case 'Chefe do apoio':
-                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
+                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)->orderBy('code')
                     ->where('code_om', auth()->user()->code_om)->get();
                 break;
             case 'Enc. Oficina':
-                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
+                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)->orderBy('code')
                     ->where('code_workshop', auth()->user()->code_workshop)->get();
                 break;
             case 'Aux. Oficina':
-                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)
+                $os = Os::with('oms')->with('requests')->where('canceled', false)->where('req_canceled', false)->where('os.solved', false)->orderBy('code')
                     ->whereRelation('solver_os', 'nip', auth()->user()->nip)->get();
                 break;
             default:

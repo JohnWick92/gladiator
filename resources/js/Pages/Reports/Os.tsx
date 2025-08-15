@@ -47,6 +47,8 @@ export default function OsReport({
 	owner: userType;
 	solvers: solversType[];
 }>) {
+	const os_creation_date = new Date(os.created_at);
+	const formateddDate = `${os_creation_date.getDate()}/${os_creation_date.getMonth() + 1}/${os_creation_date.getFullYear()}`;
 	return (
 		<div className="flex-row justify-center items-center">
 			<Menu profile_description={auth.user.profile_description} />
@@ -69,6 +71,7 @@ export default function OsReport({
 							<View style={styles.number}>
 								<Text>Nº OS: {os?.code}</Text>
 								<Text>Nº pedido: {os?.code_request}</Text>
+								<Text>Data de abertura da OS: {formateddDate}</Text>
 							</View>
 							<View style={styles.description}>
 								<Text>Descrição do pedido: {os.requests?.description}</Text>

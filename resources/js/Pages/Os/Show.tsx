@@ -31,6 +31,8 @@ export default function Show({
 	materials: materialType[];
 }>) {
 	const { flash } = usePage().props as PageProps<{ flash: any }> & any;
+	const os_creation_date = new Date(os.created_at);
+	const formateddDate = `${os_creation_date.getDate()}/${os_creation_date.getMonth() + 1}/${os_creation_date.getFullYear()}`;
 
 	useEffect(() => {
 		toast("Atualização", {
@@ -43,13 +45,14 @@ export default function Show({
 	}, [flash]);
 
 	return (
-		<div >
+		<div>
 			{flash.success && <Toaster />}
 			<Menu profile_description={auth.user.profile_description} />
 			<div className="flex-row w-4/5 m-auto">
 				<div className="flex-row w-3/4 m-auto my-20 text-xl">
 					<p className="py-2">Nº OS: {os.code}</p>
 					<p className="py-2">Nº Pedido: {os.code_request}</p>
+					<p className="py-2">Aberta em: {formateddDate}</p>
 					<p className="py-2">Local: {os.requests?.location}</p>
 					<p className="py-2">
 						Descrição do pedido: {os.requests?.description}

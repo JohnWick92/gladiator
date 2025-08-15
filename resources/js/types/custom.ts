@@ -68,6 +68,7 @@ export type solversType = {
 
 export type osType = {
 	code: number;
+	created_at: Date;
 	code_request: number;
 	code_workshop: number;
 	status: string;
